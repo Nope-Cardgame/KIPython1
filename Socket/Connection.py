@@ -78,6 +78,7 @@ def connectToSocketIOServer(jwt: str):
 
     try:
         sio.connect(baseURL, auth={'token': jwt})
+        print("My sid is: " + sio.sid)
 
     except requests.exceptions.RequestException as e:
         print(f'Failed to connect to SocketIO server: {e}')

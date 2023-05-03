@@ -10,9 +10,8 @@ Kurze Beschreibung des Repos und der übergriefenden Schnittstelle für die unte
 ## Mitglieder
 Mitglied | entwickelter Client | 
 --- | --- |
-[GitHub-Benutzername1](https://github.com/GitHub-Benutzername1) | Client1
-[GitHub-Benutzername2](https://github.com/GitHub-Benutzername2) | Client2
-[GitHub-Benutzername3](https://github.com/GitHub-Benutzername3) | Client3
+[Dennis Edler](https://github.com/deedz-x) | Client1
+[Moritz Stenten](https://https://github.com/mstenten) | Client2
 
 
 ## Installation

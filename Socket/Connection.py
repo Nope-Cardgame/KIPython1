@@ -3,7 +3,7 @@ import requests
 
 # Repeatedly used URLS declared in shorter variables
 baseURL = "http://nope.ddns.net/api/"
-signinURL = baseURL + "signinn"
+signinURL = baseURL + "signin"
 signupURL = baseURL + "signup"
 
 # Sent data declared as variables and saved as dictionary

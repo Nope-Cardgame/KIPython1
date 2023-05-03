@@ -58,14 +58,17 @@ def getJWTToken(responseBody: dict) -> str:
 
 @sio.event
 def connect():
+    """ Basic SocketIO event raised on connection """
     print("Client connected")
 
 @sio.event
 def connect_error():
+    """ Basic SocketIO event raised on connection error """
     print("Connection failed")
 
 @sio.event
 def disconnect():
+    """ Basic SocketIO event raised on disconnect """
     print("Client disconnected")
 
 
@@ -73,7 +76,7 @@ def connectToSocketIOServer(jwt: str):
     """ Tries to connect the client to the Socket IO Server
 
      :param jwt: The received access token
-     :type str:
+     :type jwt: str
      """
 
     try:
@@ -87,6 +90,36 @@ def connectToSocketIOServer(jwt: str):
     except socketio.exceptions.BadNamespaceError as e:
         print(f'Failed to connect to SocketIO server: {e}')
 
+class BearerAuth(requests.auth.AuthBase):
+    """ Class to make authentication easier. Sends the JWT as a Bearer Token in the Header.
+
+    Taken from https://requests.readthedocs.io/en/latest/user/authentication/#new-forms-of-authentication
+
+    :returns: A formatted Bearer Token
+    """
+
+    def __init__(self, token):
+        self.token = token
+    def __call__(self, r):
+        r.headers["authorization"] = "Bearer " + self.token
+        return r
+
+def showUserConnections(jwt: str):
+    """ Shows all currently connected users
+
+    :param jwt: the JWT needed to authenticate the request
+    :type jwt: str
+    """
+
+    users = requests.get("http://nope.ddns.net/api/userConnections", auth=BearerAuth(jwt))
+    usersJSON = users.json()
+
+    print("\nCurrently connected users:")
+    for user in usersJSON:
+        print(user.get("username"))
+
 
 jwt = getJWTToken(postRequest(signinURL, data))
 connectToSocketIOServer(jwt)
+print("-----------------------")
+showUserConnections(jwt)

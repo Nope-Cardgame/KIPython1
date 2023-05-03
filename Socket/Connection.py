@@ -69,3 +69,23 @@ def disconnect():
     print("Client disconnected")
 
 
+def connectToSocketIOServer(jwt: str):
+    """ Tries to connect the client to the Socket IO Server
+
+     :param jwt: The received access token
+     :type str:
+     """
+
+    try:
+        sio.connect(baseURL, auth={'token': jwt})
+
+    except requests.exceptions.RequestException as e:
+        print(f'Failed to connect to SocketIO server: {e}')
+    except socketio.exceptions.ConnectionError as e:
+        print(f'Failed to connect to SocketIO server: {e}')
+    except socketio.exceptions.BadNamespaceError as e:
+        print(f'Failed to connect to SocketIO server: {e}')
+
+
+jwt = getJWTToken(postRequest(signinURL, data))
+connectToSocketIOServer(jwt)

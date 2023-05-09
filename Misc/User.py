@@ -6,6 +6,7 @@ class User:
         self.password = password
         self.loginData = loginDataJSON
         self.jwt = None
+        self.sid = None
 
     def __getattr__(self, item):
         return self.__dict__[f"_{item}"]

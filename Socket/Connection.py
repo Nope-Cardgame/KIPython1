@@ -1,6 +1,6 @@
 import socketio
 import requests
-import Events
+# import Events
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 
@@ -9,12 +9,27 @@ baseURL = "http://nope.ddns.net/api/"
 
 # Sent data declared as variables and saved as dictionary
 # TODO: Refactor to have a user input
-nameValue = "deedz"
-pwValue = "deedz"
-data = {'username': nameValue, 'password': pwValue}
+# nameValue = "deedz"
+# pwValue = "deedz"
+# data = {'username': nameValue, 'password': pwValue}
 
 # Socket IO Client
 sio = socketio.Client()
+
+def setupUserAndConnection(user: User, url: str, logindata: dict) -> bool:
+    """ Processes signin or signup of a user and connects him to the Server
+
+    :param user: The current User signin in or up
+    :param url: The url to send the POST request to
+    :param logindata: Dictionary containing the users name and password
+    """
+    connected =  False
+
+    response = postRequest(url, logindata)
+    jwt = getJWTToken(response)
+    user.jwt = jwt
+    connected = connectToSocketIOServer(user, user.jwt)
+    return connected
 
 
 def postRequest(url: str, data: dict) -> dict:
@@ -47,20 +62,25 @@ def getJWTToken(responseBody: dict) -> str:
      """
 
     jwt = responseBody.get("jsonwebtoken")
-    print("JWT Token extracted successfully:\n" + jwt)
+    # print("JWT Token extracted successfully:\n" + jwt)
 
     return jwt
 
 
-def connectToSocketIOServer(jwt: str):
+def connectToSocketIOServer(user: User, jwt: str) -> bool:
     """ Tries to connect the client to the Socket IO Server
 
      :param jwt: The received access token
      """
+    connected = False
 
     try:
         sio.connect(baseURL, auth={'token': jwt})
-        print("My sid is: " + sio.sid)
+        # print("My sid is: " + sio.sid)
+        print("Connected to Server!")
+        user.sid = sio.sid
+        connected = True
+        return connected
 
     except requests.exceptions.RequestException as e:
         print(f'Failed to connect to SocketIO server: {e}')
@@ -76,12 +96,13 @@ def showUserConnections(user: User) -> dict:
     :param user: current user Object containing all data needed
     """
 
-    users = requests.get(baseURL + "userConnections", auth=BearerAuth(user.jwt))
+    users = requests.get(baseURL + "userConnections",
+                         auth=BearerAuth(user.jwt))
     usersJSON = users.json()
 
-    print("\nCurrently connected users:")
-    for user in usersJSON:
-        print(user.get("username"))
+    # print("\nCurrently connected users:")
+    # for user in usersJSON:
+    #     print(user.get("username"))
 
     return usersJSON
 

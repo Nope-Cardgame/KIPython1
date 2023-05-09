@@ -16,20 +16,21 @@ baseURL = "http://nope.ddns.net/api/"
 # Socket IO Client
 sio = socketio.Client()
 
-def setupUserAndConnection(user: User, url: str, logindata: dict) -> bool:
+def setupUserAndConnection(urlEndpoint: str,) -> User:
     """ Processes signin or signup of a user and connects him to the Server
 
-    :param user: The current User signin in or up
-    :param url: The url to send the POST request to
-    :param logindata: Dictionary containing the users name and password
+    :param urlEndpoint: The url Endpoint to send the POST request to -> either signin or signup
     """
-    connected =  False
 
-    response = postRequest(url, logindata)
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    user = User(username, password)
+
+    response = postRequest(baseURL + urlEndpoint, user.loginData)
     jwt = getJWTToken(response)
     user.jwt = jwt
-    connected = connectToSocketIOServer(user, user.jwt)
-    return connected
+    connectToSocketIOServer(user, user.jwt)
+    return user
 
 
 def postRequest(url: str, data: dict) -> dict:
@@ -67,20 +68,18 @@ def getJWTToken(responseBody: dict) -> str:
     return jwt
 
 
-def connectToSocketIOServer(user: User, jwt: str) -> bool:
+def connectToSocketIOServer(user: User, jwt: str):
     """ Tries to connect the client to the Socket IO Server
 
+     :param user: The current User
      :param jwt: The received access token
      """
-    connected = False
 
     try:
         sio.connect(baseURL, auth={'token': jwt})
         # print("My sid is: " + sio.sid)
         print("Connected to Server!")
         user.sid = sio.sid
-        connected = True
-        return connected
 
     except requests.exceptions.RequestException as e:
         print(f'Failed to connect to SocketIO server: {e}')
@@ -88,7 +87,6 @@ def connectToSocketIOServer(user: User, jwt: str) -> bool:
         print(f'Failed to connect to SocketIO server: {e}')
     except socketio.exceptions.BadNamespaceError as e:
         print(f'Failed to connect to SocketIO server: {e}')
-
 
 def showUserConnections(user: User) -> dict:
     """ Shows all currently connected users
@@ -107,7 +105,7 @@ def showUserConnections(user: User) -> dict:
     return usersJSON
 
 
-def createGame(user: User, players: dict, noActionCardsBool: bool = True, noWildcardsBool: bool = False,
+def createGame(user: User, players: list, noActionCardsBool: bool = True, noWildcardsBool: bool = False,
                oneMoreStartCardsBool: bool = False):
     """ Create a game between defined Users. Optional game modifiers can be set.
 
@@ -115,7 +113,7 @@ def createGame(user: User, players: dict, noActionCardsBool: bool = True, noWild
         :param noActionCardsBool: Decide if game mode contains Action Cards
         :param noWildcardsBool: Decide if game mode contains Wildcards
         :param oneMoreStartCardsBool: Decide if game mode contains an additional starting card
-        :param players: Dictionary of players competing in the game
+        :param players: List of players competing in the game
         """
 
     # Parse arguments into body

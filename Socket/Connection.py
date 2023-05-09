@@ -1,5 +1,6 @@
 import socketio
 import requests
+import Events
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 
@@ -15,17 +16,14 @@ data = {'username': nameValue, 'password': pwValue}
 # Socket IO Client
 sio = socketio.Client()
 
+
 def postRequest(url: str, data: dict) -> dict:
     """ Used for register and signup. Sends a POST request to a specific URL with given data. Checks if response is successful.
 
      :param url: The URL to send the POST request to
-     :type url: str
      :param data: The json data to send in the body of the request. Contains specific keys and values
-     :type data: dict
 
      :returns: the response body data in JSON format
-     :rtype: dict
-
      """
 
     response = requests.post(url, data)
@@ -44,11 +42,8 @@ def getJWTToken(responseBody: dict) -> str:
     """ Extracts the JWT Token from a response body
 
      :param responseBody: the data of a prior response
-     :type responseBody: dict
 
      :returns: JSON Web Token as string
-     :rtype: str
-
      """
 
     jwt = responseBody.get("jsonwebtoken")
@@ -61,7 +56,6 @@ def connectToSocketIOServer(jwt: str):
     """ Tries to connect the client to the Socket IO Server
 
      :param jwt: The received access token
-     :type jwt: str
      """
 
     try:
@@ -76,11 +70,10 @@ def connectToSocketIOServer(jwt: str):
         print(f'Failed to connect to SocketIO server: {e}')
 
 
-def showUserConnections(user: User):
+def showUserConnections(user: User) -> dict:
     """ Shows all currently connected users
 
     :param user: current user Object containing all data needed
-    :type user: User
     """
 
     users = requests.get(baseURL + "userConnections", auth=BearerAuth(user.jwt))
@@ -90,57 +83,101 @@ def showUserConnections(user: User):
     for user in usersJSON:
         print(user.get("username"))
 
-
-def createGame(user: User):
-    """ Shows all currently connected users
-
-        :param user: current user Object containing all data needed
-        :type user: User
-        """
-    pass
+    return usersJSON
 
 
-def startTournament(user: User):
-    """ Shows all currently connected users
+def createGame(user: User, players: dict, noActionCardsBool: bool = True, noWildcardsBool: bool = False,
+               oneMoreStartCardsBool: bool = False):
+    """ Create a game between defined Users. Optional game modifiers can be set.
 
         :param user: current user Object containing all data needed
-        :type user: User
+        :param noActionCardsBool: Decide if game mode contains Action Cards
+        :param noWildcardsBool: Decide if game mode contains Wildcards
+        :param oneMoreStartCardsBool: Decide if game mode contains an additional starting card
+        :param players: Dictionary of players competing in the game
         """
-    pass
+
+    # Parse arguments into body
+    body = {"noActionCards": noActionCardsBool,
+            "noWildcards": noWildcardsBool,
+            "oneMoreStartCards": oneMoreStartCardsBool,
+            "players": players
+            }
+
+    requests.post(baseURL + "game",
+                  auth=BearerAuth(user.jwt),
+                  json=body)
+
+    # TODO: HANDLE GAMESTATE EVENT
+
+
+def startTournament(user: User, mode: dict, players: dict):
+    """ Starts a tournament in a specific mode
+
+        :param user: Current user Object containing all data needed
+        :param mode: Defines the tournament mode
+        :param players: Dictionary of players competing in the game
+        """
+
+    body = {"modus": mode,
+            "players": players
+            }
+
+    requests.post(baseURL + "tournament",
+                  auth=BearerAuth(user.jwt),
+                  json=body)
+
+    # TODO: HANDLE TOURNAMENT EVENT
 
 #
-def getGameInformation():
-    """ Shows all currently connected users
+def getSpecificGameInfo(user: User, gameID: str) -> dict:
+    """ Get information of a specific Game
+
+        :param user: Current user Object containing all data needed
+        :param gameID: The ID of the specific game
+        """
+
+    response = requests.get(baseURL + "game/" + gameID,
+                        auth=BearerAuth(user.jwt))
+    game =  response.json()
+    print(game)
+    # TODO: Write to .txt file
+
+
+def getRecentGames(user: User):
+    """ Get a List of all recently played games
 
         :param user: current user Object containing all data needed
-        :type user: User
         """
-    pass
 
+    response = requests.get(baseURL + "game",
+                            auth=BearerAuth(user.jwt))
+    recentGames = response.json()
+    print(recentGames)
+    # TODO: Write to .txt file
 
-def recentGames():
-    """ Shows all currently connected users
-
-        :param user: current user Object containing all data needed
-        :type user: User
-        """
-    pass
 
 
 def tournamentList(user: User):
-    """ Shows all currently connected users
+    """ Get a list of all recently played tournaments
 
         :param user: current user Object containing all data needed
-        :type user: User
         """
-    pass
+    response = requests.get(baseURL + "tournament",
+                            auth=BearerAuth(user.jwt))
+    game = response.json()
+    print(game)
+    # TODO: Write to .txt file
 
 
-def getTournamentInfo(user: User):
-    """ Shows all currently connected users
+def getSpecificTournamentInfo(user: User, tournamentID: str):
+    """ Get information of a specific tournament
 
         :param user: current user Object containing all data needed
-        :type user: User
+        :param tournamentID:
         """
-    pass
-
+    response = requests.get(baseURL + "tournament/" + tournamentID,
+                            auth=BearerAuth(user.jwt))
+    game = response.json()
+    print(game)
+    # TODO: Write to .txt file

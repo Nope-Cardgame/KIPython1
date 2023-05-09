@@ -6,6 +6,9 @@ import sys
 # baseURL = "http://nope.ddns.net/api/"
 
 def main():
+    """ Main function, handles basic user creation and connection to SocketIO
+    """
+
     while True:
         print("Welcome to NOPE! Please choose if you want to SIGN IN or REGISTER")
         menuInput = input("[1] - SIGN IN\n[2] - REGISTER\n[3] - END\n")
@@ -33,6 +36,10 @@ def main():
 
 
 def game(user: User):
+    """ Handles basic user menu to show players, start a game and disconnect from Server
+
+    :param user: Current user object
+    """
     print("\nWelcome to Nope!")
 
     while True:
@@ -64,6 +71,10 @@ def game(user: User):
 
 
 def startGame(user: User):
+    """ Handles the basic menu for creating a game and specifying opponents and modifiers
+
+    :param user: Current user object
+    """
 
     opponents = []
     noActionCards = False

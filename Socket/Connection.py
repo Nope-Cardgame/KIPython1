@@ -4,14 +4,8 @@ import requests
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 
-# Repeatedly used URLS declared in shorter variables
+# Repeatedly used URL declared in shorter variables
 baseURL = "http://nope.ddns.net/api/"
-
-# Sent data declared as variables and saved as dictionary
-# TODO: Refactor to have a user input
-# nameValue = "deedz"
-# pwValue = "deedz"
-# data = {'username': nameValue, 'password': pwValue}
 
 # Socket IO Client
 sio = socketio.Client()

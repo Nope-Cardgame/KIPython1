@@ -88,7 +88,8 @@ def startGame(user: User):
     currentUsers = Connection.showUserConnections(user)
     if challenge == "1":
         for opponent in currentUsers:
-            opponents.append(currentUsers[opponent])
+            opponents.append(opponent)
+
 
     if challenge == "2":
         print("Choose your opponents! Input 'q' to quit")
@@ -120,7 +121,6 @@ def startGame(user: User):
     #         print("Current modifiers:")
 
     Connection.createGame(user, opponents)
-
 
 
 if __name__ == '__main__':

@@ -1,6 +1,15 @@
 class User:
+    """ Class that represents the current user of the Client """
 
-    def __init__(self, name: str, password: str):
+    def __init__(self,
+                 name: str,
+                 password: str):
+        """ Construct the User Object by setting a name and password. Parses these into a dict to store information
+
+        :param name: Input of the users name
+        :param password: Input of the users password
+        """
+
         loginDataJSON = {"username": name, "password": password}
         self.name = name
         self.password = password

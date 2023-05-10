@@ -78,7 +78,6 @@ def connectToSocketIOServer(user: User, jwt: str):
     try:
         sio.connect(baseURL, auth={'token': jwt})
         # print("My sid is: " + sio.sid)
-        print("Connected to Server!")
         user.sid = sio.sid
 
     except requests.exceptions.RequestException as e:
@@ -87,6 +86,7 @@ def connectToSocketIOServer(user: User, jwt: str):
         print(f'Failed to connect to SocketIO server: {e}')
     except socketio.exceptions.BadNamespaceError as e:
         print(f'Failed to connect to SocketIO server: {e}')
+
 
 def showUserConnections(user: User) -> dict:
     """ Shows all currently connected users
@@ -123,11 +123,13 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
             "players": players
             }
 
-    requests.post(baseURL + "game",
+    response = requests.post(baseURL + "game",
                   auth=BearerAuth(user.jwt),
                   json=body)
 
-    # TODO: HANDLE GAMESTATE EVENT
+    print(response.json())
+
+
 
 
 def startTournament(user: User, mode: dict, players: dict):
@@ -148,7 +150,7 @@ def startTournament(user: User, mode: dict, players: dict):
 
     # TODO: HANDLE TOURNAMENT EVENT
 
-#
+
 def getSpecificGameInfo(user: User, gameID: str) -> dict:
     """ Get information of a specific Game
 
@@ -176,7 +178,6 @@ def getRecentGames(user: User):
     # TODO: Write to .txt file
 
 
-
 def tournamentList(user: User):
     """ Get a list of all recently played tournaments
 
@@ -200,3 +201,62 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
     game = response.json()
     print(game)
     # TODO: Write to .txt file
+
+
+
+# Emitted Events:
+def playAction(action):
+    sio.emit("playAction", action)
+
+
+def ready(acceptance):
+    sio.emit("ready", acceptance)
+
+
+# Received Events:
+@sio.event
+def connect():
+    """ Basic SocketIO event raised on connection """
+    print("Client connected")
+
+
+@sio.event
+def connect_error(data):
+    """ Basic SocketIO event raised on connection error """
+    print("Connection failed")
+
+
+@sio.event
+def disconnect():
+    """ Basic SocketIO event raised on disconnect """
+    print("Client disconnected")
+
+
+@sio.on("gameState")
+def gameState(data):
+    sio.on('gameState')
+
+
+@sio.on("error")
+def error(data):
+    pass
+
+
+@sio.on("banned")
+def banned(data):
+    pass
+
+
+@sio.on("gameEnd")
+def gameEnd(data):
+    pass
+
+
+@sio.on("tournamentInvite")
+def tournamentInvite(data):
+    pass
+
+
+@sio.on("gameInvite")
+def gameInvite(data):
+    pass

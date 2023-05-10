@@ -43,7 +43,8 @@ def game(user: User):
     print("\nWelcome to Nope!")
 
     while True:
-        print("Currently {number} players are connected.".format(number=len(Connection.showUserConnections(user))))
+        currentUsers = Connection.showUserConnections(user)
+        print("Currently {number} players are connected.".format(number=len(currentUsers)))
         gameInput = input("\nWhat do you want to do?\n"
                           "[1] - Show current players\n"
                           "[2] - Create a game\n"
@@ -54,8 +55,6 @@ def game(user: User):
 
         match gameInput:
             case "1":
-                currentUsers = Connection.showUserConnections(user)
-
                 print("\nCurrently connected users:")
                 i = 0
                 for users in currentUsers:
@@ -63,8 +62,11 @@ def game(user: User):
                     i += 1
 
             case "2":
-                startGame(user)
-                break
+                if len(currentUsers) >= 2:
+                    startGame(user)
+                    break
+                else:
+                    print("Not enough users to start a game!")
 
             case "3":
                 Connection.sio.on("gameInvite", Connection.gameInvite)

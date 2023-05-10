@@ -135,7 +135,7 @@ class Game:
     """ Class that represents a Game """
 
     def __init__(self,
-                 id: int,
+                 id: str,
                  state: str,
                  noActionCards: bool,
                  noWildCards: bool,
@@ -144,7 +144,7 @@ class Game:
                  startTime: str = None,
                  tournament: Tournament = None,
                  gameRole: str = None,
-                 encounterRound: int = None,
+                 encounterRound: str = None,
                  discardPile: list = None,
                  lastAction: Action = None,
                  currentPlayer: Player = None,

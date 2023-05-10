@@ -121,11 +121,8 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
     currentGame = Game(**responseJSON)
     print(currentGame.id)
 
-    # sio.on("gameInvite", gameInvite)
-
-    ready(currentGame.id)
-
-
+    sio.on("gameInvite", gameInvite)
+    sio.wait()
 
 
 def startTournament(user: User, mode: dict, players: dict):
@@ -210,6 +207,9 @@ def ready(invID):
             "type": "game",
             "inviteID": invID}
 
+    print("#### READY ####\n")
+    print(type(body["inviteID"]))
+
     sio.emit("ready", body)
 
 
@@ -240,6 +240,7 @@ def gameState(data):
 @sio.on("error")
 def error(data):
     print("An error occured")
+    print(data)
 
 
 @sio.on("banned")
@@ -265,16 +266,19 @@ def eliminated(data):
 @sio.on("gameInvite")
 def gameInvite(data):
     print("Game invite received\n")
+    game = Game(**data)
+    invID = game.id
 
     while True:
         acceptInvite = input("Accept Invite? y/n\n")
 
         match acceptInvite:
             case "y":
-                pass
+                ready(invID)
+                break
 
             case "n":
-                pass
+                break
 
             case _:
                 print("Invalid Input")

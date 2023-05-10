@@ -14,6 +14,7 @@ Mitglied | entwickelter Client |
 [Moritz Stenten](https://https://github.com/mstenten) | Client2
 
 ## Coding-Conventions
+- Code und Dokumentation auf Englisch
 - Dokumentation durch DocStrings in Funktions- oder Klassenkopf
 - Parameter und Rückgabetyp durch Type Hints in Funktion definieren
 - Erläuterung der Parameter und des Rückgabewerts in DocString

@@ -92,10 +92,6 @@ def showUserConnections(user: User) -> dict:
                          auth=BearerAuth(user.jwt))
     usersJSON = users.json()
 
-    # print("\nCurrently connected users:")
-    # for user in usersJSON:
-    #     print(user.get("username"))
-
     return usersJSON
 
 
@@ -156,7 +152,7 @@ def getSpecificGameInfo(user: User, gameID: str) -> dict:
                         auth=BearerAuth(user.jwt))
     game =  response.json()
     print(game)
-    # TODO: Write to .txt file
+    # TODO: Write to .txt file or output
 
 
 def getRecentGames(user: User):
@@ -169,7 +165,7 @@ def getRecentGames(user: User):
                             auth=BearerAuth(user.jwt))
     recentGames = response.json()
     print(recentGames)
-    # TODO: Write to .txt file
+    # TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def tournamentList(user: User):
@@ -181,7 +177,7 @@ def tournamentList(user: User):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    # TODO: Write to .txt file
+    # TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def getSpecificTournamentInfo(user: User, tournamentID: str):
@@ -194,7 +190,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    # TODO: Write to .txt file
+    # TODO: Write to .txt file or output
 
 
 

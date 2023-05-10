@@ -16,6 +16,7 @@ Mitglied | entwickelter Client |
 ## Coding-Conventions
 - Code und Dokumentation auf Englisch
 - Dokumentation durch DocStrings in Funktions- oder Klassenkopf
+- DocStrings in SphinxStyle
 - Parameter und Rückgabetyp durch Type Hints in Funktion definieren
 - Erläuterung der Parameter und des Rückgabewerts in DocString
 - camelCase mit führendem lowercase Buchstaben für Variablen und Funktionen

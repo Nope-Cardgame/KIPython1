@@ -1,8 +1,8 @@
 import socketio
 import requests
-# import Events
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
+from Misc.JSONObjects import *
 
 # Repeatedly used URL declared in shorter variables
 baseURL = "http://nope.ddns.net/api/"
@@ -116,8 +116,14 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
     response = requests.post(baseURL + "game",
                   auth=BearerAuth(user.jwt),
                   json=body)
+    responseJSON = response.json()
+    print(responseJSON)
+    currentGame = Game(**responseJSON)
+    print(currentGame.id)
 
-    print(response.json())
+    # sio.on("gameInvite", gameInvite)
+
+    ready(currentGame.id)
 
 
 
@@ -195,12 +201,16 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
 
 
 # Emitted Events:
-def playAction(action):
+def playAction(action: Action):
     sio.emit("playAction", action)
 
 
-def ready(acceptance):
-    sio.emit("ready", acceptance)
+def ready(invID):
+    body = {"accept": True,
+            "type": "game",
+            "inviteID": invID}
+
+    sio.emit("ready", body)
 
 
 # Received Events:
@@ -224,29 +234,47 @@ def disconnect():
 
 @sio.on("gameState")
 def gameState(data):
-    sio.on('gameState')
+    print("GameState received")
 
 
 @sio.on("error")
 def error(data):
-    pass
+    print("An error occured")
 
 
 @sio.on("banned")
 def banned(data):
-    pass
+    print("You have been banned")
 
 
 @sio.on("gameEnd")
 def gameEnd(data):
-    pass
+    print("Game ended")
 
 
 @sio.on("tournamentInvite")
 def tournamentInvite(data):
-    pass
+    print("Tournament Invite received")
+
+
+@sio.on("eliminated")
+def eliminated(data):
+    print("You have been eliminated")
 
 
 @sio.on("gameInvite")
 def gameInvite(data):
-    pass
+    print("Game invite received\n")
+
+    while True:
+        acceptInvite = input("Accept Invite? y/n\n")
+
+        match acceptInvite:
+            case "y":
+                pass
+
+            case "n":
+                pass
+
+            case _:
+                print("Invalid Input")

@@ -46,9 +46,10 @@ def game(user: User):
         print("Currently {number} players are connected.".format(number=len(Connection.showUserConnections(user))))
         gameInput = input("\nWhat do you want to do?\n"
                           "[1] - Show current players\n"
-                          "[2] - Start a game\n"
-                          "[3] - Show game informations\n"
-                          "[4] - Show tournament informations\n"
+                          "[2] - Create a game\n"
+                          "[3] - Wait for invite\n"
+                          "[4] - Show game informations\n"
+                          "[5] - Show tournament informations\n"
                           "[9] - End Game\n")
 
         match gameInput:
@@ -63,8 +64,13 @@ def game(user: User):
 
             case "2":
                 startGame(user)
+                break
 
             case "3":
+                Connection.sio.on("gameInvite", Connection.gameInvite)
+                Connection.sio.wait()
+
+            case "4":
                 gameInfoMenu(user)
 
             case "9":
@@ -143,6 +149,7 @@ def startGame(user: User):
     #         print("Current modifiers:")
 
     Connection.createGame(user, opponents)
+
 
 
 if __name__ == '__main__':

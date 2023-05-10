@@ -18,6 +18,7 @@ class Card:
         self.name = name
         self.value = value
 
+
 class Player:
     """ Class that represents a player object """
 
@@ -96,7 +97,7 @@ class Tournament:
         self.endTime = endTime
 
 
-class Actions:
+class Action:
     """ Class that represents the Action a player can send """
 
     def __init__(self,
@@ -140,12 +141,12 @@ class Game:
                  noWildCards: bool,
                  oneMoreStartCard: bool,
                  players: list,
-                 startTime: str,
+                 startTime: str = None,
                  tournament: Tournament = None,
                  gameRole: str = None,
                  encounterRound: int = None,
                  discardPile: list = None,
-                 lastAction: Actions = None,
+                 lastAction: Action = None,
                  currentPlayer: Player = None,
                  initialTopCard: Card = None,
                  actions: list = None,

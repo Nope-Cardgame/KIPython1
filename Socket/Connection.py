@@ -141,7 +141,7 @@ def startTournament(user: User, mode: dict, players: dict):
                   auth=BearerAuth(user.jwt),
                   json=body)
 
-    # TODO: HANDLE TOURNAMENT EVENT
+    #TODO: HANDLE TOURNAMENT EVENT
 
 
 def getSpecificGameInfo(user: User, gameID: str) -> dict:
@@ -155,7 +155,7 @@ def getSpecificGameInfo(user: User, gameID: str) -> dict:
                         auth=BearerAuth(user.jwt))
     game =  response.json()
     print(game)
-    # TODO: Write to .txt file or output
+    #TODO: Write to .txt file or output
 
 
 def getRecentGames(user: User):
@@ -168,7 +168,7 @@ def getRecentGames(user: User):
                             auth=BearerAuth(user.jwt))
     recentGames = response.json()
     print(recentGames)
-    # TODO: Output as List of GameIDs - maybe Write to .txt file
+    #TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def tournamentList(user: User):
@@ -180,7 +180,7 @@ def tournamentList(user: User):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    # TODO: Output as List of GameIDs - maybe Write to .txt file
+    #TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def getSpecificTournamentInfo(user: User, tournamentID: str):
@@ -193,7 +193,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    # TODO: Write to .txt file or output
+    #TODO: Write to .txt file or output
 
 
 

@@ -1,6 +1,6 @@
-# Nope - KI Spieler (_<programmier_sprache>_)
+# Nope - KI Spieler (Python)
 
-Kurze Beschreibung des Repos und der übergriefenden Schnittstelle für die unterschiedlichen Clients.
+Kurze Beschreibung des Repos und der übergreifenden Schnittstelle für die unterschiedlichen Clients.
 
 
 ## Dokumentation
@@ -13,24 +13,36 @@ Mitglied | entwickelter Client |
 [Dennis Edler](https://github.com/deedz-x) | Client1
 [Moritz Stenten](https://https://github.com/mstenten) | Client2
 
+## Coding-Conventions
+- Code und Dokumentation auf Englisch
+- Dokumentation durch DocStrings in Funktions- oder Klassenkopf
+- DocStrings in SphinxStyle
+- Parameter und Rückgabetyp durch Type Hints in Funktion definieren
+- Erläuterung der Parameter und des Rückgabewerts in DocString
+- camelCase mit führendem lowercase Buchstaben für Variablen und Funktionen
+- Sinnvolle, einmalige Namen für Variablen, Funktionen und Klassen
+- KlassenNamen als camelCase mit führendem uppercase Buchstaben
+- Zeilenumbrüche bei langen/vielen Parametern. Einrücken um Lesbarkeit zu vereinfachen
+- Trennung der Funktionen durch zwei leere Zeilen
+- Einzelne leere Zeile zur Trennung logischer Blöcke in einer Methode
+- Whitespace zur besseren Lesbarkeit verwenden. [Hieran](https://peps.python.org/pep-0008/#pet-peeves) orientieren
+- Kommentare als Block Comments. Inline Comment nur in Ausnahmefällen!
+- Redundanten Code in Funktion auslagern
 
 ## Installation
 
 Erklärung wie das Projekt ausgeführt wird
 
-1. Installation von benötigten Softwarepakete
+1. Installation von benötigten Softwarepakete (requests, python-socketio, websocket-client)
 2. Klonen des GitHub-Repo
-3. Ausführen des Programms
-
+3. Ausführen der main.py
 
 ## Benutzung
-Beschreibung, wie das Programm bedient werden muss, um eine Verbindung zum NOPE-Server herzustellen (welche Konsoleneingaben/GUI Interaktionen müssen getätigt werden) und ein NOPE Spiel zu starten.
+Das Programm verfpgt über eine vollständiges Menü, welches in der Konsole dargstellt wird.
+Durch Auswahl der Menüpunkte wird die entprechende Aktion, z.B. "Sign In" gestartet.
 
 ### Client1
 Beschreibung der Bedienung für Client1 um ein NOPE Spiel zu spielen
 
 ### Client2
 Beschreibung der Bedienung für Client2 um ein NOPE Spiel zu spielen
-
-### Client3
-Beschreibung der Bedienung für Client3 um ein NOPE Spiel zu spielen

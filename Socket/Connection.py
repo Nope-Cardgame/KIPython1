@@ -205,10 +205,10 @@ def playAction(action: Action):
 def ready(invID):
     body = {"accept": True,
             "type": "game",
-            "inviteID": invID}
+            "inviteId": invID}
 
     print("#### READY ####\n")
-    print(type(body["inviteID"]))
+    print(body)
 
     sio.emit("ready", body)
 

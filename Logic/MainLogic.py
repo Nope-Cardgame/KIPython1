@@ -13,13 +13,9 @@ def main(game: Game):
     # if user.sid == game.currentPlayer["socketId"]:
 
     player = game.getCurrentPlayer()
-    print(player.username)
-    print(player.disqualified)
 
     # Check if user is disqualified
     while not player.disqualified:
-
-        print("disqualify check complete")
 
         # player = game.getPlayer(user.sid)
         playerCards = player.getCards()

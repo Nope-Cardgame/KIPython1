@@ -245,8 +245,7 @@ class Game:
         return discardPileList
 
     def getTopCard(self) -> Card:
-
-        topCard = Card(**self.discardPile[0])
+        topCard = Card(*self.discardPile[0])
         return topCard
 
     def getCurrentPlayer(self) -> Player:

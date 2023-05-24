@@ -125,9 +125,9 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
     responseJSON = response.json()
     print(responseJSON)
     currentGame = Game(**responseJSON)
-    player = currentGame.getPlayerByName(user.name)
-    user.sid = player.socketId
-
+    for player in currentGame.players:
+        if player["username"] == user.name:
+            user.sid = player["socketId"]
 
     sio.on("gameInvite", gameInvite)
     sio.wait()
@@ -245,6 +245,7 @@ def disconnect():
 def gameState(data):
     print("Gamestate received")
     game = Game(**data)
+    print(game.state)
 
     if game.state == "game_start":
         print("Game starting")

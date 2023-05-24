@@ -58,4 +58,13 @@ g = _Card(cardtype="number", value=3, color=["red"], name="redone")
 
 playercards = [a, b, c, d, e, f, g]
 
-checkCards(topcard, playercards)
+# checkCards(topcard, playercards)
+
+
+player = {'oneMoreStartCard': False,
+          'players': [{'username': 'deedz', 'socketId': 'kmAPikE37X1h5Y1TAAVt', 'cardAmount': 0, 'disqualified': False, 'accepted': False},
+                      {'username': 'abc', 'socketId': '12345', 'cardAmount': 0, 'disqualified': False, 'accepted': False}]}
+
+for user in player["players"]:
+    if user["username"] == "deedz":
+        print(user["socketId"])

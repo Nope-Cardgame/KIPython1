@@ -4,6 +4,7 @@ from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 from Misc.JSONObjects import *
 from Logic import MainLogic
+import Misc.Globals as glo
 
 # Repeatedly used URL declared in shorter variables
 baseURL = "http://nope.ddns.net/api/"
@@ -243,6 +244,8 @@ def gameState(data):
     print("Gamestate received")
     game = Game(**data)
     print(game.players)
+    print(glo.user)
+    MainLogic.main(glo.user, game)
 
 
 @sio.on("error")

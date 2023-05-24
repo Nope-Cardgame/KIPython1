@@ -1,10 +1,11 @@
 from Misc.User import User
 from Socket import Connection
 import sys
-import Misc.Globals as globals
+import Misc.Globals as glo
 
 
 # baseURL = "http://nope.ddns.net/api/"
+
 
 def main():
     """ Main function, handles basic user creation and connection to SocketIO
@@ -16,17 +17,17 @@ def main():
         match menuInput:
             case "1":
                 urlEndpoint = "signin"
-                user = Connection.setupUserAndConnection(urlEndpoint)
-                print(user)
-                if user:
-                    game(user)
+                glo.user = Connection.setupUserAndConnection(urlEndpoint)
+                print(glo.user)
+                if glo.user:
+                    game(glo.user)
                 break
 
             case "2":
                 urlEndpoint = "signup"
-                user = Connection.setupUserAndConnection(urlEndpoint)
-                if user:
-                    game(user)
+                glo.user = Connection.setupUserAndConnection(urlEndpoint)
+                if glo.user:
+                    game(glo.user)
                 break
 
             case "3":

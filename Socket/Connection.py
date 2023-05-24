@@ -3,7 +3,6 @@ import requests
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 from Misc.JSONObjects import *
-import main
 from Logic import MainLogic
 
 # Repeatedly used URL declared in shorter variables
@@ -244,8 +243,6 @@ def gameState(data):
     print("Gamestate received")
     game = Game(**data)
     print(game.players)
-    user = main.user
-    MainLogic.main(user, game)
 
 
 @sio.on("error")

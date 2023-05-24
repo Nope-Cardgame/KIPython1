@@ -20,7 +20,6 @@ def main(game: Game):
         # player = game.getPlayer(user.sid)
         playerCards = player.getCards()
         topCard = game.getTopCard()
-        print(topCard.name)
 
         print("objects complete")
 
@@ -68,10 +67,10 @@ def discardCards(topCard, matchedColors) -> Action:
 def checkCards(topCard: Card, playerCards: list) -> dict:
     # Save all matching cards to a dictionary
     matchedColors = {}
-    for color in topCard.color:
+    for color in topCard.colors:
         matchedCards = []
         for card in playerCards:
-            for cardcolor in card.color:
+            for cardcolor in card.colors:
                 if color == cardcolor:
                     matchedCards.append(card)
         matchedColors[color] = matchedCards
@@ -85,4 +84,5 @@ def checkCards(topCard: Card, playerCards: list) -> dict:
     for key in keysToRemove:
         del matchedColors[key]
 
+    print("checkcards done")
     return matchedColors

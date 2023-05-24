@@ -211,6 +211,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
 # Emitted Events:
 def playAction(action):
     actionJSON = action.actionToDict()
+    print(action.type)
     sio.emit("playAction", actionJSON)
 
 
@@ -246,6 +247,7 @@ def disconnect():
 def gameState(data):
     print("Gamestate received")
     game = Game(**data)
+    print(game.state)
 
     if game.state == "game_start":
         print("Game starting")
@@ -254,7 +256,7 @@ def gameState(data):
     if gameState == "cancelled":
         print("Game Cancelled")
     else:
-        if glo.user.sid == game.currentPlayer["socketId"]:
+        if glo.user.name == game.currentPlayer["username"]:
             print("Your turn")
             MainLogic.main(game)
 

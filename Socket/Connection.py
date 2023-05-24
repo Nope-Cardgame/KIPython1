@@ -245,7 +245,6 @@ def disconnect():
 def gameState(data):
     print("Gamestate received")
     game = Game(**data)
-    print(game.state)
 
     if game.state == "game_start":
         print("Game starting")
@@ -254,10 +253,8 @@ def gameState(data):
     if gameState == "cancelled":
         print("Game Cancelled")
     else:
-        print(game.currentPlayer)
-        print(glo.user.sid)
         if glo.user.sid == game.currentPlayer["socketId"]:
-            print("match")
+            print("Your turn")
             MainLogic.main(game)
 
 

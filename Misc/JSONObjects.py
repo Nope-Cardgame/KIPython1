@@ -3,18 +3,18 @@ class Card:
 
     def __init__(self,
                  type: str,
-                 color: list,
+                 colors: list,
                  name: str,
                  value: int = None):
         """ Constructs the Card object. Set a cards type, colors, name and value
 
         :param type: Type of Card - e.g. Number or Nominate
-        :param color: List of the cards colors. Can be up to 4 different ones
+        :param colors: List of the cards colors. Can be up to 4 different ones
         :param name: Name of the specific card
         :param value: Value of specific card
         """
         self.type = type
-        self.color = color
+        self.colors = colors
         self.name = name
         self.value = value
 
@@ -51,7 +51,7 @@ class Player:
     def getCards(self):
         cardsList = []
         for cardData in self.cards:
-            card = Card(*cardData)
+            card = Card(**cardData)
             cardsList.append(card)
 
         return cardsList
@@ -245,7 +245,7 @@ class Game:
         return discardPileList
 
     def getTopCard(self) -> Card:
-        topCard = Card(*self.discardPile[0])
+        topCard = Card(**self.discardPile[0])
         return topCard
 
     def getCurrentPlayer(self) -> Player:

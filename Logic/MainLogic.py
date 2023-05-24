@@ -79,7 +79,7 @@ def checkCards(topCard: Card, playerCards: list) -> dict:
     # Remove cards if they aren't enough to discard
     keysToRemove = []
     for key in matchedColors:
-        if len(matchedColors[key]) < topCard.value:
+        if len(matchedColors[key]) < int(topCard.value):
             keysToRemove.append(key)
 
     for key in keysToRemove:

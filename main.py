@@ -52,8 +52,9 @@ def game(user: User):
                           "[1] - Show current players\n"
                           "[2] - Create a game\n"
                           "[3] - Wait for invite\n"
-                          "[4] - Show game informations\n"
-                          "[5] - Show tournament informations\n"
+                          "[4] - Create Tournament\n"
+                          "[5] - Show game informations\n"
+                          "[6] - Show tournament informations\n"
                           "[9] - End Game\n")
 
         match gameInput:
@@ -74,8 +75,18 @@ def game(user: User):
             case "3":
                 Connection.sio.on("gameInvite", Connection.gameInvite)
                 Connection.sio.wait()
+                escape = input("Press key to exit")
+                if escape:
+                    break
 
             case "4":
+                if len(currentUsers) >= 2:
+                    startGame(user)
+                    break
+                else:
+                    print("Not enough users to start a game!")
+
+            case "5":
                 gameInfoMenu(user)
 
             case "9":
@@ -108,21 +119,38 @@ def startGame(user: User):
 
     :param user: Current user object
     """
-
-    opponents = []
     noActionCards = False
     noWildcards = False
     oneMoreStartCard = False
+    opponents = chooseOpponents(user)
 
+    # TODO Add possible modifiers
+    # modifiers = input("Do you want to modify your game?\n[1] - Yes\n[2] - No")
+    # if modifiers == "1":
+    #     while True:
+    #         print("Current modifiers:")
+
+    Connection.createGame(user, opponents)
+
+def startTournament(user: User):
+
+    opponents = chooseOpponents(user)
+
+    mode = {"name": "round-robin", "numberOfRounds": "10"}
+
+    Connection.startTournament(user, mode, opponents)
+
+
+def chooseOpponents(user):
+
+    opponents = []
     challenge = input("Who would you like to challenge?\n"
-          "[1] - EVERYONE\n"
-          "[2] - SPECIFIC\n")
-
+                      "[1] - EVERYONE\n"
+                      "[2] - SPECIFIC\n")
     currentUsers = Connection.showUserConnections(user)
     if challenge == "1":
         for opponent in currentUsers:
             opponents.append(opponent)
-
     if challenge == "2":
         print("Choose your opponents! Input 'q' to quit")
         i = 0
@@ -145,15 +173,7 @@ def startGame(user: User):
 
         for opponent in specificOpponents:
             opponents.append(currentUsers[opponent])
-
-    # TODO Add possible modifiers
-    # modifiers = input("Do you want to modify your game?\n[1] - Yes\n[2] - No")
-    # if modifiers == "1":
-    #     while True:
-    #         print("Current modifiers:")
-
-    print("SocketID before CreateGame" + user.sid)
-    Connection.createGame(user, opponents)
+    return opponents
 
 
 if __name__ == '__main__':

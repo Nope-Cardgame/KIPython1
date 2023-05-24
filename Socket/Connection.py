@@ -118,16 +118,15 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
             "players": players
             }
 
-    print("SocketID before post: " + user.sid)
     response = requests.post(baseURL + "game",
                              auth=BearerAuth(user.jwt),
                              json=body)
     responseJSON = response.json()
-    print(responseJSON)
     currentGame = Game(**responseJSON)
-    for player in currentGame.players:
-        if player["username"] == user.name:
-            user.sid = player["socketId"]
+
+    # for player in currentGame.players:
+    #     if player["username"] == user.name:
+    #         user.sid = player["socketId"]
 
     sio.on("gameInvite", gameInvite)
     sio.wait()
@@ -137,7 +136,7 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
         sio.wait()
 
 
-def startTournament(user: User, mode: dict, players: dict):
+def startTournament(user: User, mode: dict, players: list):
     """ Starts a tournament in a specific mode
 
         :param user: Current user Object containing all data needed
@@ -149,11 +148,16 @@ def startTournament(user: User, mode: dict, players: dict):
             "players": players
             }
 
-    requests.post(baseURL + "tournament",
-                  auth=BearerAuth(user.jwt),
-                  json=body)
+    response = requests.post(baseURL + "tournament",
+                             auth=BearerAuth(user.jwt),
+                             json=body)
 
-    # TODO: HANDLE TOURNAMENT EVENT
+    sio.on("tournamentInvite", tournamentInvite)
+    sio.wait()
+
+    while True:
+        sio.on("gameState", gameState)
+        sio.wait()
 
 
 def getSpecificGameInfo(user: User, gameID: str) -> dict:

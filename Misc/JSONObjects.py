@@ -149,7 +149,7 @@ class Game:
                  noWildCards: bool,
                  oneMoreStartCard: bool,
                  players: list,
-                 startTime: str,
+                 startTime: str = None,
                  tournament: Tournament = None,
                  gameRole: str = None,
                  encounterRound: str = None,

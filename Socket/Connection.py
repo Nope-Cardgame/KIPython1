@@ -241,7 +241,9 @@ def disconnect():
 @sio.on("gameState")
 def gameState(data):
     global game
+    print("Gamestate received")
     game = Game(**data)
+    print(game.players)
     return game
 
 

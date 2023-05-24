@@ -28,7 +28,7 @@ class Player:
                  cardAmount: int,
                  cards: list,
                  disqualified: bool,
-                 accepted: bool,
+                 accepted: bool = None,
                  ranking: int = None):
         """ Constructs the Player object. Sets needed parameters
 
@@ -46,6 +46,7 @@ class Player:
         self.cards = cards
         self.ranking = ranking
         self.disqualified = disqualified
+        self.accepted = accepted
 
     def getCards(self):
         cardsList = []

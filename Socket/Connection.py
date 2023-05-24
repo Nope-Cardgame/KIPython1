@@ -3,6 +3,8 @@ import requests
 from Misc.User import User
 from Misc.BearerAuth import BearerAuth
 from Misc.JSONObjects import *
+import main
+from Logic import MainLogic
 
 # Repeatedly used URL declared in shorter variables
 baseURL = "http://nope.ddns.net/api/"
@@ -10,10 +12,10 @@ baseURL = "http://nope.ddns.net/api/"
 # Socket IO Client
 sio = socketio.Client()
 
-game = None
+# game = None
 
 
-def setupUserAndConnection(urlEndpoint: str,) -> User:
+def setupUserAndConnection(urlEndpoint: str, ) -> User:
     """ Processes signin or signup of a user and connects him to the Server
 
     :param urlEndpoint: The url Endpoint to send the POST request to -> either signin or signup
@@ -117,8 +119,8 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
             }
 
     response = requests.post(baseURL + "game",
-                  auth=BearerAuth(user.jwt),
-                  json=body)
+                             auth=BearerAuth(user.jwt),
+                             json=body)
     responseJSON = response.json()
     print(responseJSON)
     currentGame = Game(**responseJSON)
@@ -147,7 +149,7 @@ def startTournament(user: User, mode: dict, players: dict):
                   auth=BearerAuth(user.jwt),
                   json=body)
 
-    #TODO: HANDLE TOURNAMENT EVENT
+    # TODO: HANDLE TOURNAMENT EVENT
 
 
 def getSpecificGameInfo(user: User, gameID: str) -> dict:
@@ -158,10 +160,10 @@ def getSpecificGameInfo(user: User, gameID: str) -> dict:
         """
 
     response = requests.get(baseURL + "game/" + gameID,
-                        auth=BearerAuth(user.jwt))
-    game =  response.json()
+                            auth=BearerAuth(user.jwt))
+    game = response.json()
     print(game)
-    #TODO: Write to .txt file or output
+    # TODO: Write to .txt file or output
 
 
 def getRecentGames(user: User):
@@ -174,7 +176,7 @@ def getRecentGames(user: User):
                             auth=BearerAuth(user.jwt))
     recentGames = response.json()
     print(recentGames)
-    #TODO: Output as List of GameIDs - maybe Write to .txt file
+    # TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def tournamentList(user: User):
@@ -186,7 +188,7 @@ def tournamentList(user: User):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    #TODO: Output as List of GameIDs - maybe Write to .txt file
+    # TODO: Output as List of GameIDs - maybe Write to .txt file
 
 
 def getSpecificTournamentInfo(user: User, tournamentID: str):
@@ -199,8 +201,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
                             auth=BearerAuth(user.jwt))
     game = response.json()
     print(game)
-    #TODO: Write to .txt file or output
-
+    # TODO: Write to .txt file or output
 
 
 # Emitted Events:
@@ -240,11 +241,11 @@ def disconnect():
 
 @sio.on("gameState")
 def gameState(data):
-    global game
     print("Gamestate received")
     game = Game(**data)
     print(game.players)
-    return game
+    user = main.user
+    MainLogic.main(user, game)
 
 
 @sio.on("error")
@@ -283,6 +284,7 @@ def tournamentInvite(data):
 
             case _:
                 print("Invalid Input")
+
 
 @sio.on("eliminated")
 def eliminated(data):

@@ -3,14 +3,14 @@ from Misc.JSONObjects import *
 from Socket import Connection
 
 
-def main(user: User):
+def main(user: User, game: Game):
     """ Main AI Logic
     """
 
-    Connection.sio.on("gameState", Connection.gameState)
-    Connection.sio.wait()
-
-    game = Connection.game
+    # Connection.sio.on("gameState", Connection.gameState)
+    # Connection.sio.wait()
+    #
+    # game = Connection.game
 
     # Check if it's users turn
     if user.sid == game.currentPlayer.socketID:

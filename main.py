@@ -5,9 +5,13 @@ import sys
 
 # baseURL = "http://nope.ddns.net/api/"
 
+user = None
+
 def main():
     """ Main function, handles basic user creation and connection to SocketIO
     """
+
+    global user
 
     while True:
         print("Welcome to NOPE! Please choose if you want to SIGN IN or REGISTER")

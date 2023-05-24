@@ -113,11 +113,11 @@ class Action:
     def __init__(self,
                  type: str,
                  explanation: str,
-                 player: Player = None,
+                 player: dict = None,
                  amount: int = None,
-                 cards: list[Card] = None,
-                 nominatedPlayer: Player = None,
-                 nominatedCard: Card = None):
+                 cards: list[dict] = None,
+                 nominatedPlayer: dict = None,
+                 nominatedCard: dict = None):
         """ Construct the Action object for the player to send
 
         :param type: The type of action the player wants to perform

@@ -1,3 +1,5 @@
+import json
+
 from Misc.User import User
 from Misc.JSONObjects import *
 from Socket import Connection
@@ -58,9 +60,15 @@ def discardCards(topCard, matchedColors) -> Action:
     discardCardsList = []
     for i in range(topCard.value):
         discardCardsList.append(matchedColors[key][i])
+
+    jsonCards = []
+    for card in discardCardsList:
+        parsedCard = vars(card)
+        jsonCards.append(parsedCard)
+
     discardAction = Action(type="discard",
                            explanation="random pick",
-                           cards=discardCardsList)
+                           cards=jsonCards)
     return discardAction
 
 

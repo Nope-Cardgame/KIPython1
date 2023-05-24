@@ -7,7 +7,7 @@ from Logic import MainLogic
 import Misc.Globals as glo
 
 # Repeatedly used URL declared in shorter variables
-baseURL = "http://nope.ddns.net/api/"
+baseURL = "http://nope.ddns.net/api/" #"https://deedz.flamtky.dev/api/"
 
 # Socket IO Client
 sio = socketio.Client()

@@ -85,8 +85,8 @@ class Tournament:
     def __init__(self,
                  id: str,
                  mode: dict,
-                 participants: list[TournamentParticipant],
-                 games: list['Game'],
+                 participants: list[dict],
+                 games: list[dict],
                  startTime: str,
                  endTime: str):
         """ Construct a tournament object with given details

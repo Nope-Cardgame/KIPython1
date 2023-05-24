@@ -7,13 +7,10 @@ def main(user: User, game: Game):
     """ Main AI Logic
     """
 
-    # Connection.sio.on("gameState", Connection.gameState)
-    # Connection.sio.wait()
-    #
-    # game = Connection.game
+    currentPlayer = game.getCurrentPlayer()
 
     # Check if it's users turn
-    if user.sid == game.currentPlayer.socketID:
+    if user.sid == currentPlayer.socketId:
 
         # Check if user is disqualified
         while not game.getPlayer(user.sid).disqualified:

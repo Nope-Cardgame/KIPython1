@@ -243,7 +243,7 @@ def disconnect():
 def gameState(data):
     print("Gamestate received")
     game = Game(**data)
-    print(game.players)
+    print(game.currentPlayer)
     print(glo.user)
     MainLogic.main(glo.user, game)
 

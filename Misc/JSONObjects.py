@@ -24,15 +24,15 @@ class Player:
 
     def __init__(self,
                  username: str,
-                 socketID: str,
+                 socketId: str,
                  cardAmount: int,
                  cards: list,
-                 ranking: int,
-                 disqualified: bool):
+                 disqualified: bool,
+                 ranking: int = None,):
         """ Constructs the Player object. Sets needed parameters
 
         :param username: The players username
-        :param socketID: The players sid
+        :param socketId: The players sid
         :param cardAmount: Amount of cards the player holds in his hand
         :param cards: List of cards the player holds in his hand
         :param ranking: Current ranking of player
@@ -40,7 +40,7 @@ class Player:
         """
 
         self.username = username
-        self.socketID = socketID
+        self.socketId = socketId
         self.cardAmount = cardAmount
         self.cards = cards
         self.ranking = ranking
@@ -157,7 +157,7 @@ class Game:
                  lastAction: Action = None,
                  lastNominateAmount: int = None,
                  lastNominateColor: str = None,
-                 currentPlayer: Player = None,
+                 currentPlayer: dict = None,
                  initialTopCard: Card = None,
                  actions: list = None,
                  endTime: str = None):
@@ -239,3 +239,7 @@ class Game:
 
         topCard = Card(**self.discardPile[0])
         return topCard
+
+    def getCurrentPlayer(self) -> Player:
+        player = Player(**self.currentPlayer)
+        return player

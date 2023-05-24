@@ -3,57 +3,59 @@ from Misc.JSONObjects import *
 from Socket import Connection
 
 
-def main(user: User, game: Game):
+def main(game: Game):
     """ Main AI Logic
     """
 
     # currentPlayer = game.getCurrentPlayer()
+
     # Check if it's users turn
-    if user.sid == game.currentPlayer["socketId"]:
+    # if user.sid == game.currentPlayer["socketId"]:
 
-        player = game.getCurrentPlayer()
+    player = game.getCurrentPlayer()
+    print(player.username)
+    print(player.disqualified)
 
-        # Check if user is disqualified
-        while not player.disqualified:
+    # Check if user is disqualified
+    while not player.disqualified:
 
-            print("disqualify check complete")
+        print("disqualify check complete")
 
-            # player = game.getPlayer(user.sid)
-            playerCards = player.getCards()
-            topCard = game.getTopCard()
-            print(topCard.name)
+        # player = game.getPlayer(user.sid)
+        playerCards = player.getCards()
+        topCard = game.getTopCard()
+        print(topCard.name)
 
-            print("objects complete")
+        print("objects complete")
 
+        # When turn starts check for matching pairs - discard matches or take a card
+        if game.state == "turn_start":
+            cardMatches = checkCards(topCard, playerCards)
+            print("cardmatches complete")
 
-            # When turn starts check for matching pairs - discard matches or take a card
-            if game.state == "turn_start":
-                cardMatches = checkCards(topCard, playerCards)
-                print("cardmatches complete")
+            # decide which cards are discarded
+            if cardMatches:
+                discardAction = discardCards(topCard, cardMatches)
+                Connection.playAction(discardAction)
 
-                # decide which cards are discarded
-                if cardMatches:
-                    discardAction = discardCards(topCard, cardMatches)
-                    Connection.playAction(discardAction)
+            else:
+                takeAction = Action(type="take",
+                                    explanation="no cards to discard")
+                Connection.playAction(takeAction)
 
-                else:
-                    takeAction = Action(type="take",
-                                        explanation="no cards to discard")
-                    Connection.playAction(takeAction)
+        # After drawing a card check for matches again - discard or say "nope"
+        if game.state == "card_drawn":
+            cardMatches = checkCards(topCard, playerCards)
 
-            # After drawing a card check for matches again - discard or say "nope"
-            if game.state == "card_drawn":
-                cardMatches = checkCards(topCard, playerCards)
+            # decide which cards are discarded
+            if cardMatches:
+                discardAction = discardCards(topCard, cardMatches)
+                Connection.playAction(discardAction)
 
-                # decide which cards are discarded
-                if cardMatches:
-                    discardAction = discardCards(topCard, cardMatches)
-                    Connection.playAction(discardAction)
-
-                else:
-                    takeAction = Action(type="nope",
-                                        explanation="no cards to discard")
-                    Connection.playAction(takeAction)
+            else:
+                takeAction = Action(type="nope",
+                                    explanation="no cards to discard")
+                Connection.playAction(takeAction)
 
 
 def discardCards(topCard, matchedColors) -> Action:

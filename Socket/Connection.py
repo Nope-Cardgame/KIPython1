@@ -255,7 +255,10 @@ def gameState(data):
         print("Game Cancelled")
     else:
         print(game.currentPlayer)
-        MainLogic.main(glo.user, game)
+        print(glo.user.sid)
+        if glo.user.sid == game.currentPlayer["socketId"]:
+            print("match")
+            MainLogic.main(game)
 
 
 @sio.on("error")

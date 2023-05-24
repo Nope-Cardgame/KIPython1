@@ -10,6 +10,14 @@ class _Card:
         self.action = action
 
 
+class _Player:
+
+    def __init__(self, username, socketId, cardAmount):
+        self.username = username
+        self.socketId = socketId
+        self.cardAmount = cardAmount
+
+
 def checkCards(topCard: _Card, playerCards: list):
     matchedColors = {}
     for color in topCard.color:
@@ -60,11 +68,30 @@ playercards = [a, b, c, d, e, f, g]
 
 # checkCards(topcard, playercards)
 
+cards = {'cards': [{'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow one', 'value': 1},
+                   {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue one', 'value': 1},
+                   {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow two', 'value': 2},
+                   {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
+                   {'type': 'number', 'colors': ['yellow'], 'name': 'yellow one', 'value': 1},
+                   {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue two', 'value': 2},
+                   {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue two', 'value': 2},
+                   {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow one', 'value': 1}]}
 
-player = {'oneMoreStartCard': False,
-          'players': [{'username': 'deedz', 'socketId': 'kmAPikE37X1h5Y1TAAVt', 'cardAmount': 0, 'disqualified': False, 'accepted': False},
-                      {'username': 'abc', 'socketId': '12345', 'cardAmount': 0, 'disqualified': False, 'accepted': False}]}
+cardsList = []
+for cardData in cards["cards"]:
+    card = _Card(*cardData)
+    cardsList.append(card)
 
-for user in player["players"]:
-    if user["username"] == "deedz":
-        print(user["socketId"])
+print(cardsList)
+
+# currentPlayer = {"username": "name",
+#                  "socketId": "1234dgf",
+#                  "cardAmount": 6}
+#
+#
+# def getCurrentPlayer(currentPlayer) -> _Player:
+#     player = _Player(*currentPlayer)
+#     return player
+#
+# pl = getCurrentPlayer(currentPlayer)
+# print(pl.username)

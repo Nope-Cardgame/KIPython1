@@ -26,7 +26,7 @@ class Player:
                  username: str,
                  socketId: str,
                  cardAmount: int,
-                 cards: list,
+                 cards: list[dict],
                  disqualified: bool,
                  accepted: bool = None,
                  ranking: int = None):
@@ -51,7 +51,7 @@ class Player:
     def getCards(self):
         cardsList = []
         for cardData in self.cards:
-            card = Card(**cardData)
+            card = Card(*cardData)
             cardsList.append(card)
 
         return cardsList
@@ -85,8 +85,8 @@ class Tournament:
     def __init__(self,
                  id: str,
                  mode: dict,
-                 participants: list,
-                 games: list,
+                 participants: list[TournamentParticipant],
+                 games: list['Game'],
                  startTime: str,
                  endTime: str):
         """ Construct a tournament object with given details
@@ -115,7 +115,7 @@ class Action:
                  explanation: str,
                  player: Player = None,
                  amount: int = None,
-                 cards: list = None,
+                 cards: list[Card] = None,
                  nominatedPlayer: Player = None,
                  nominatedCard: Card = None):
         """ Construct the Action object for the player to send
@@ -150,18 +150,18 @@ class Game:
                  noActionCards: bool,
                  noWildCards: bool,
                  oneMoreStartCard: bool,
-                 players: list,
+                 players: list[dict],
                  startTime: str = None,
-                 tournament: Tournament = None,
+                 tournament: dict = None,
                  gameRole: str = None,
                  encounterRound: str = None,
-                 discardPile: list = None,
-                 lastAction: Action = None,
+                 discardPile: list[dict] = None,
+                 lastAction: dict = None,
                  lastNominateAmount: int = None,
                  lastNominateColor: str = None,
                  currentPlayer: dict = None,
-                 initialTopCard: Card = None,
-                 actions: list = None,
+                 initialTopCard: dict = None,
+                 actions: list[dict] = None,
                  endTime: str = None):
         """ Constructor for a Game object
 
@@ -216,7 +216,7 @@ class Game:
         playerList = []
 
         for playerData in self.players:
-            player = Player(**playerData)
+            player = Player(*playerData)
             playerList.append(player)
 
         return playerList
@@ -225,14 +225,14 @@ class Game:
 
         for playerData in self.players:
             if playerData["socketId"] == sid:
-                player = Player(**playerData)
+                player = Player(*playerData)
                 return player
 
     def getPlayerByName(self, name) -> Player:
 
         for playerData in self.players:
             if playerData["username"] == name:
-                player = Player(**playerData)
+                player = Player(*playerData)
                 return player
 
     def getDiscardPile(self) -> list:
@@ -240,15 +240,15 @@ class Game:
         discardPileList = []
 
         for cardData in self.discardPile:
-            card = Card(**cardData)
+            card = Card(*cardData)
             discardPileList.append(card)
         return discardPileList
 
     def getTopCard(self) -> Card:
 
-        topCard = Card(**self.discardPile[0])
+        topCard = Card(*self.discardPile[0])
         return topCard
 
     def getCurrentPlayer(self) -> Player:
-        player = Player(**self.currentPlayer)
+        player = Player(*self.currentPlayer)
         return player

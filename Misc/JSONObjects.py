@@ -140,6 +140,11 @@ class Action:
         self.nominatedPlayer = nominatedPlayer
         self.nominatedCard = nominatedCard
 
+    def actionToDict(self):
+        actionDict = vars(self)
+        res = {k: v for k, v in actionDict.items() if v is not None}
+        return res
+
 
 class Game:
     """ Class that represents a Game """

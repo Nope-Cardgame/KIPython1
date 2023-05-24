@@ -209,8 +209,9 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
 
 
 # Emitted Events:
-def playAction(action: Action):
-    sio.emit("playAction", action)
+def playAction(action):
+    actionJSON = action.actionToDict()
+    sio.emit("playAction", actionJSON)
 
 
 def ready(accept: bool, gametype: str, invID: str):
@@ -299,6 +300,7 @@ def tournamentInvite(data):
 @sio.on("eliminated")
 def eliminated(data):
     print("You have been eliminated")
+    print(data)
 
 
 @sio.on("gameInvite")

@@ -17,18 +17,15 @@ def main(game: Game):
     player = game.getCurrentPlayer()
 
     # Check if user is disqualified
-    while not player.disqualified:
+    if not player.disqualified:
 
         # player = game.getPlayer(user.sid)
         playerCards = player.getCards()
         topCard = game.getTopCard()
 
-        print("objects complete")
-
         # When turn starts check for matching pairs - discard matches or take a card
         if game.state == "turn_start":
             cardMatches = checkCards(topCard, playerCards)
-            print("cardmatches complete")
 
             # decide which cards are discarded
             if cardMatches:
@@ -92,5 +89,4 @@ def checkCards(topCard: Card, playerCards: list) -> dict:
     for key in keysToRemove:
         del matchedColors[key]
 
-    print("checkcards done")
     return matchedColors

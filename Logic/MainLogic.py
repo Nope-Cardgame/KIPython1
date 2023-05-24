@@ -8,16 +8,20 @@ def main(user: User, game: Game):
     """
 
     # currentPlayer = game.getCurrentPlayer()
-
+    print("user sid: " +user.sid)
+    print("sid after gamestate: " + game.currentPlayer["socketId"])
     # Check if it's users turn
     if user.sid == game.currentPlayer["socketId"]:
 
-        # Check if user is disqualified
-        while not game.getPlayer(user.sid).disqualified:
+        player = game.getCurrentPlayer()
 
-            player = game.getPlayer(user.sid)
+        # Check if user is disqualified
+        while not player.disqualified:
+
+            # player = game.getPlayer(user.sid)
             playerCards = player.getCards()
             topCard = game.getTopCard()
+            print(topCard.name)
 
             # When turn starts check for matching pairs - discard matches or take a card
             if game.state == "turn_start":

@@ -152,6 +152,7 @@ def startGame(user: User):
     #     while True:
     #         print("Current modifiers:")
 
+    print("SocketID before CreateGame" + user.sid)
     Connection.createGame(user, opponents)
 
 

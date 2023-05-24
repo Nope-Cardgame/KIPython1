@@ -118,19 +118,23 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
             "players": players
             }
 
+    print("SocketID before post: " + user.sid)
     response = requests.post(baseURL + "game",
                              auth=BearerAuth(user.jwt),
                              json=body)
     responseJSON = response.json()
     print(responseJSON)
     currentGame = Game(**responseJSON)
-    print(currentGame.id)
+    player = currentGame.getPlayerByName(user.name)
+    user.sid = player.socketId
+
 
     sio.on("gameInvite", gameInvite)
     sio.wait()
 
-    sio.on("gameState", gameState)
-    sio.wait()
+    while True:
+        sio.on("gameState", gameState)
+        sio.wait()
 
 
 def startTournament(user: User, mode: dict, players: dict):
@@ -241,8 +245,16 @@ def disconnect():
 def gameState(data):
     print("Gamestate received")
     game = Game(**data)
-    print(game.currentPlayer)
-    MainLogic.main(glo.user, game)
+
+    if game.state == "game_start":
+        print("Game starting")
+    if gameState == "game_end":
+        print("Game Over")
+    if gameState == "cancelled":
+        print("Game Cancelled")
+    else:
+        print(game.currentPlayer)
+        MainLogic.main(glo.user, game)
 
 
 @sio.on("error")

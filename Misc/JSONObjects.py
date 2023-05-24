@@ -28,7 +28,8 @@ class Player:
                  cardAmount: int,
                  cards: list,
                  disqualified: bool,
-                 ranking: int = None,):
+                 accepted: bool,
+                 ranking: int = None):
         """ Constructs the Player object. Sets needed parameters
 
         :param username: The players username
@@ -223,6 +224,13 @@ class Game:
 
         for playerData in self.players:
             if playerData["socketId"] == sid:
+                player = Player(**playerData)
+                return player
+
+    def getPlayerByName(self, name) -> Player:
+
+        for playerData in self.players:
+            if playerData["username"] == name:
                 player = Player(**playerData)
                 return player
 

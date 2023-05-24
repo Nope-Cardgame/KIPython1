@@ -18,7 +18,6 @@ def main():
             case "1":
                 urlEndpoint = "signin"
                 glo.user = Connection.setupUserAndConnection(urlEndpoint)
-                print(glo.user)
                 if glo.user:
                     game(glo.user)
                 break

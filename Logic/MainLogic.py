@@ -9,17 +9,11 @@ def main(game: Game):
     """ Main AI Logic
     """
 
-    # currentPlayer = game.getCurrentPlayer()
-
-    # Check if it's users turn
-    # if user.sid == game.currentPlayer["socketId"]:
-
     player = game.getCurrentPlayer()
 
     # Check if user is disqualified
     if not player.disqualified:
 
-        # player = game.getPlayer(user.sid)
         playerCards = player.getCards()
         topCard = game.getTopCard()
 

@@ -249,9 +249,7 @@ def disconnect():
 
 @sio.on("gameState")
 def gameState(data):
-    print("Gamestate received")
     game = Game(**data)
-    print(game.state)
 
     if game.state == "game_start":
         print("Game starting")
@@ -261,7 +259,7 @@ def gameState(data):
         print("Game Cancelled")
     else:
         if glo.user.name == game.currentPlayer["username"]:
-            print("Your turn")
+            print("Your turn: ")
             MainLogic.main(game)
 
 

@@ -215,8 +215,6 @@ def ready(accept: bool, gametype: str, invID: str):
             "inviteId": invID}
 
     print("#### READY ####\n")
-    print(body)
-
     sio.emit("ready", body)
 
 
@@ -244,7 +242,6 @@ def gameState(data):
     print("Gamestate received")
     game = Game(**data)
     print(game.currentPlayer)
-    print(glo.user)
     MainLogic.main(glo.user, game)
 
 

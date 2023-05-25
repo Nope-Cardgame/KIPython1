@@ -144,7 +144,7 @@ def startTournament(user: User, mode: dict, players: list):
         :param players: Dictionary of players competing in the game
         """
 
-    body = {"modus": mode,
+    body = {"mode": mode,
             "players": players
             }
 
@@ -282,8 +282,8 @@ def gameEnd(data):
 @sio.on("tournamentInvite")
 def tournamentInvite(data):
     print("Tournament Invite received\n")
-    tournament = Tournament(**data)
-    tournID = tournament.id
+    # tournament = Tournament(**data)
+    tournID = data["id"]
 
     while True:
         acceptInvite = input("Accept Invite? y/n\n")

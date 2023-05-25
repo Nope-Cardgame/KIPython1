@@ -85,10 +85,11 @@ class Tournament:
     def __init__(self,
                  id: str,
                  mode: dict,
+                 state: str,
                  participants: list[dict],
                  games: list[dict],
-                 startTime: str,
-                 endTime: str):
+                 startTime: str = None,
+                 endTime: str = None):
         """ Construct a tournament object with given details
 
         :param id: The tournaments ID
@@ -102,6 +103,7 @@ class Tournament:
         self.id = id
         self.mode = mode
         self.participants = participants
+        self.state = state
         self.games = games
         self.startTime = startTime
         self.endTime = endTime
@@ -159,7 +161,7 @@ class Game:
                  startTime: str = None,
                  tournament: dict = None,
                  gameRole: str = None,
-                 encounterRound: str = None,
+                 encouterRound: str = None,
                  discardPile: list[dict] = None,
                  lastAction: dict = None,
                  lastNominateAmount: int = None,
@@ -203,7 +205,7 @@ class Game:
         self.oneMoreStartCard = oneMoreStartCard
         self.tournament = tournament
         self.gameRole = gameRole
-        self.encounterRound = encounterRound
+        self.encouterRound = encouterRound
         self.players = players
         self.discardPile = discardPile
         self.lastAction = lastAction

@@ -19,6 +19,23 @@ class _Player:
         self.cards = cards
 
 
+class _Tournament:
+
+    def __init__(self,
+                 id: str,
+                 mode: dict,
+                 participants: list[dict],
+                 games: list[dict],
+                 startTime: str = None,
+                 endTime: str = None):
+        self.id = id
+        self.mode = mode
+        self.participants = participants
+        self.games = games
+        self.startTime = startTime
+        self.endTime = endTime
+
+
 def checkCards(topCard: _Card, playerCards: list):
     matchedColors = {}
     for color in topCard.color:
@@ -88,18 +105,39 @@ cards = {'cards': [{'type': 'number', 'colors': ['green', 'yellow'], 'name': 'gr
 currentPlayer = {"username": "name",
                  "socketId": "1234dgf",
                  "cardAmount": 6,
-                 "cards": [{'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2}, {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow three', 'value': 3}, {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow three', 'value': 3}, {'type': 'number', 'colors': ['green'], 'name': 'green one', 'value': 1}, {'type': 'number', 'colors': ['yellow'], 'name': 'yellow two', 'value': 2}, {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue three', 'value': 3}, {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1}, {'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1}]}
-
+                 "cards": [{'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
+                           {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow three',
+                            'value': 3},
+                           {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow three',
+                            'value': 3}, {'type': 'number', 'colors': ['green'], 'name': 'green one', 'value': 1},
+                           {'type': 'number', 'colors': ['yellow'], 'name': 'yellow two', 'value': 2},
+                           {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue three', 'value': 3},
+                           {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1},
+                           {'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1}]}
 
 discardPile = [{'colors': ['red', 'green'], 'name': 'red and green two', 'type': 'number', 'value': 2}]
+
+game = {"id": "23345",
+        "state": "game_turn",
+        "noActionCards": "True",
+        "noWildCards": "True",
+        "oneMoreStartCard": "True",
+        "players": [currentPlayer]}
+
+t = {"id": "1234",
+     "mode": {"mode": "round-robin", "numberofRounds": "10"},
+     "participants": [currentPlayer],
+     "games": [game],
+     }
 
 # topcard = _Card(**discardPile[0])
 # print(topcard.color)
 
-cardsList = []
-for cardData in currentPlayer["cards"]:
-    card = _Card(**cardData)
-    print(card.color)
-    cardsList.append(card)
+# cardsList = []
+# for cardData in currentPlayer["cards"]:
+#     card = _Card(**cardData)
+#     print(card.color)
+#     cardsList.append(card)
 
-
+tou = _Tournament(**t)
+print(t["id"])

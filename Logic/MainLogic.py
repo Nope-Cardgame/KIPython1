@@ -24,7 +24,8 @@ def makeMove(actionCardsOnHand, cardMatches, topCard, game):
     # decide which cards are discarded
     if cardMatches:
         if actionCardsOnHand:
-            playActionCard(actionCardsOnHand, game)
+            discardActionCard = playActionCard(actionCardsOnHand, game)
+            Connection.playAction(discardActionCard)
         else:
             discardAction = discardCardSet(topCard, cardMatches)
             Connection.playAction(discardAction)
@@ -37,7 +38,7 @@ def makeMove(actionCardsOnHand, cardMatches, topCard, game):
                 specifyActionType("nope")
 
 
-def playActionCard(actionCardsOnHand: list, game: Game):
+def playActionCard(actionCardsOnHand: list, game: Game) -> Action:
     """
 
     :param actionCardsOnHand:
@@ -54,11 +55,12 @@ def playActionCard(actionCardsOnHand: list, game: Game):
                 if card.type == item:
                     orderList.append(card)
 
-        discardSingleCard(orderList[0], game)
-
+        action = discardSingleCard(orderList[0], game)
 
     else:
-        discardSingleCard(actionCardsOnHand[0], game)
+        action = discardSingleCard(actionCardsOnHand[0], game)
+
+    return action
 
 
 def specifyActionType(actiontype):

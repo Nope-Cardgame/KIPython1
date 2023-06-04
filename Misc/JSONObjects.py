@@ -248,7 +248,7 @@ class Game:
         playerList = []
 
         for playerData in self.players:
-            player = Player(*playerData)
+            player = Player(**playerData)
             playerList.append(player)
 
         return playerList
@@ -257,14 +257,14 @@ class Game:
 
         for playerData in self.players:
             if playerData["socketId"] == sid:
-                player = Player(*playerData)
+                player = Player(**playerData)
                 return player
 
     def getPlayerByName(self, name) -> Player:
 
         for playerData in self.players:
             if playerData["username"] == name:
-                player = Player(*playerData)
+                player = Player(**playerData)
                 return player
 
     def getDiscardPile(self) -> list:

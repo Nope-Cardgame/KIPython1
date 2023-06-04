@@ -116,7 +116,7 @@ class Action:
                  type: str,
                  explanation: str,
                  player: dict = None,
-                 amount: int = None,
+                 nominatedAmount: int = None,
                  cards: list[dict] = None,
                  nominatedPlayer: dict = None,
                  nominatedCard: dict = None):
@@ -125,7 +125,7 @@ class Action:
         :param type: The type of action the player wants to perform
         :param explanation: Explanation of the chosen action
         :param player: The current player
-        :param amount: The amount of cards taken/discarded
+        :param nominatedAmount: The amount of cards taken/discarded
         :param cards: List of cards taken/discarded
         :param nominatedPlayer: The chosen player that is nominated if Nominate Card is played
         :param nominatedCard: The card that is nominated if Nominate Card is played
@@ -137,7 +137,7 @@ class Action:
         self.type = type
         self.explanation = explanation
         self.player = player
-        self.amount = amount
+        self.amount = nominatedAmount
         self.cards = cards
         self.nominatedPlayer = nominatedPlayer
         self.nominatedCard = nominatedCard
@@ -161,7 +161,7 @@ class Game:
                  startTime: str = None,
                  tournament: dict = None,
                  gameRole: str = None,
-                 encouterRound: str = None,
+                 encounterRound: str = None,
                  discardPile: list[dict] = None,
                  lastAction: dict = None,
                  lastNominateAmount: int = None,
@@ -195,7 +195,8 @@ class Game:
                          "turn_start",
                          "card_drawn",
                          "game_end",
-                         "cancelled"]:
+                         "cancelled",
+                         "preparation"]:
             raise ValueError("Invalid Gamestate!")
 
         self.id = id
@@ -205,7 +206,7 @@ class Game:
         self.oneMoreStartCard = oneMoreStartCard
         self.tournament = tournament
         self.gameRole = gameRole
-        self.encouterRound = encouterRound
+        self.encounterRound = encounterRound
         self.players = players
         self.discardPile = discardPile
         self.lastAction = lastAction

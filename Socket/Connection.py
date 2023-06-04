@@ -113,7 +113,7 @@ def createGame(user: User, players: list, noActionCardsBool: bool = True, noWild
 
     # Parse arguments into body
     body = {"noActionCards": noActionCardsBool,
-            "noWildcards": noWildcardsBool,
+            "noWildCards": noWildcardsBool,
             "oneMoreStartCards": oneMoreStartCardsBool,
             "players": players
             }

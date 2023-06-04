@@ -9,3 +9,4 @@ Karten abwerfen:
             - erhöht Chance auf Matches bei anderen Spielern
         - Hohe Values als letztes abwerfen um anderen viele Karten abzunehmen
             - (solange folgende Spiele nicht weniger Karten auf Hand haben)
+        - Wildcards al letztes abwerfen um nachfolgen Spieler zum Abwurf zu zwingen

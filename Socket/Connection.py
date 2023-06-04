@@ -100,7 +100,7 @@ def showUserConnections(user: User) -> dict:
     return usersJSON
 
 
-def createGame(user: User, players: list, noActionCardsBool: bool = True, noWildcardsBool: bool = False,
+def createGame(user: User, players: list, noActionCardsBool: bool = False, noWildcardsBool: bool = False,
                oneMoreStartCardsBool: bool = False):
     """ Create a game between defined Users. Optional game modifiers can be set.
 

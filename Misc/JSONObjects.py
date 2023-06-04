@@ -89,7 +89,15 @@ class Tournament:
                  participants: list[dict],
                  games: list[dict],
                  startTime: str = None,
-                 endTime: str = None):
+                 endTime: str = None,
+                 noActionCards: bool = None,
+                 noWildCards: bool = None,
+                 actionTimeout: str = None,
+                 invitationTimeout: str = None,
+                 startWithRejection: bool = None,
+                 sendGameInvite: bool = None,
+                 participantAmount: str = None,
+                 gameAmount: str = None):
         """ Construct a tournament object with given details
 
         :param id: The tournaments ID
@@ -107,6 +115,14 @@ class Tournament:
         self.games = games
         self.startTime = startTime
         self.endTime = endTime
+        self.actionTimeout = actionTimeout
+        self.invitationTimeout = invitationTimeout
+        self.startWithRejection = startWithRejection
+        self.playerAmount = participantAmount
+        self.noActionCards = noActionCards
+        self.noWildCards = noWildCards
+        self.sendGameInvite = sendGameInvite
+        self.gameAmount = gameAmount
 
 
 class Action:
@@ -158,10 +174,14 @@ class Game:
                  noWildCards: bool,
                  oneMoreStartCard: bool,
                  players: list[dict],
+                 actionTimeout: str = None,
+                 invitationTimeout: str = None,
+                 startWithRejection: bool = None,
                  startTime: str = None,
                  tournament: dict = None,
                  gameRole: str = None,
                  encounterRound: str = None,
+                 playerAmount: str = None,
                  discardPile: list[dict] = None,
                  lastAction: dict = None,
                  lastNominateAmount: int = None,
@@ -217,6 +237,10 @@ class Game:
         self.initialTopCard = initialTopCard
         self.actions = actions
         self.endTime = endTime
+        self.actionTimeout = actionTimeout
+        self.invitationTimeout = invitationTimeout
+        self.startWithRejection = startWithRejection
+        self.playerAmount = playerAmount
 
     # TODO DocStrings for class functions
     def getPlayerList(self) -> list:

@@ -14,7 +14,7 @@ def main(game: Game):
         topCard = game.getTopCard()
 
         cardMatches = matchCardsByColor(topCard, playerCards)
-        actionCardsOnHand = checkForActionCards(playerCards)
+        actionCardsOnHand = checkForActionCards(cardMatches)
 
         # When turn starts check for matching pairs - discard matches or take a card
         makeMove(actionCardsOnHand, cardMatches, topCard, game)
@@ -155,10 +155,10 @@ def matchCardsByColor(topCard: Card, playerCards: list) -> dict:
     return matchedColors
 
 
-def checkForActionCards(matchedCards: list) -> list:
+def checkForActionCards(matchedCards: dict) -> list:
     """ Check if current player has any action cards that are valid to discard
 
-    :param matchedCards: List of current players cards
+    :param matchedCards: List of current players cards completing a set
     :return: list of valid action cards
     """
 

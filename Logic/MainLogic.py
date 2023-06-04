@@ -86,11 +86,13 @@ def discardSingleCard(card: Card, game: Game) -> Action:
                                cards=parsedCard,
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount)
+        print("played ActionCard: " + card.type)
 
     else:
         discardAction = Action(type="discard",
                                explanation="random pick",
                                cards=parsedCard)
+        print("played ActionCard: " + card.type)
 
     return discardAction
 

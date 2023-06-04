@@ -27,7 +27,7 @@ class Player:
                  socketId: str,
                  cardAmount: int,
                  cards: list[dict],
-                 disqualified: bool,
+                 disqualified: bool = None,
                  accepted: bool = None,
                  ranking: int = None):
         """ Constructs the Player object. Sets needed parameters

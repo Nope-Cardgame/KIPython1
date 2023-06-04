@@ -26,7 +26,7 @@ class Player:
                  username: str,
                  socketId: str,
                  cardAmount: int,
-                 cards: list[dict],
+                 cards: list[dict] = None,
                  disqualified: bool = None,
                  accepted: bool = None,
                  ranking: int = None):

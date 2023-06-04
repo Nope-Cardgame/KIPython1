@@ -104,7 +104,8 @@ def choosePlayerToNominate(game: Game) -> Player:
     cardAmountList = []
 
     for player in playerlist:
-        cardAmountList.append(int(player.cardAmount))
+        if player.username != game.currentPlayer["username"]:
+            cardAmountList.append(int(player.cardAmount))
 
     maxCards = max(cardAmountList)
 
@@ -173,7 +174,6 @@ def checkForActionCards(matchedCards: dict) -> list:
         for card in matchedCards[color]:
             if not card.type == "number":
                 actionCardsList.append(card)
-    print(actionCardsList)
 
     for card in actionCardsList:
         if card in uniqueActionCards:

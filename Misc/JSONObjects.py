@@ -135,7 +135,7 @@ class Action:
                  nominatedAmount: int = None,
                  cards: list[dict] = None,
                  nominatedPlayer: dict = None,
-                 nominatedCard: dict = None):
+                 nominatedColor: dict = None):
         """ Construct the Action object for the player to send
 
         :param type: The type of action the player wants to perform
@@ -144,7 +144,7 @@ class Action:
         :param nominatedAmount: The amount of cards taken/discarded
         :param cards: List of cards taken/discarded
         :param nominatedPlayer: The chosen player that is nominated if Nominate Card is played
-        :param nominatedCard: The card that is nominated if Nominate Card is played
+        :param nominatedColor: The card that is nominated if Nominate Card is played
         """
 
         if type not in ["take", "discard", "nope", "nominate"]:
@@ -156,7 +156,7 @@ class Action:
         self.amount = nominatedAmount
         self.cards = cards
         self.nominatedPlayer = nominatedPlayer
-        self.nominatedCard = nominatedCard
+        self.nominatedCard = nominatedColor
 
     def actionToDict(self):
         actionDict = vars(self)

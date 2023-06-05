@@ -28,6 +28,7 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
     topCard = discardPile[index]
 
     if len(discardPile) - index <= 1:
+        print("INITIAL TOP CARD")
         match topCard.type:
             case "invisible":
                 topCard.value = 1
@@ -59,7 +60,6 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
 
             case "nominate":
                 topCard.value = game.lastNominateAmount
-                topCard.colors = game.lastNominateColor
 
             case "number":
                 pass
@@ -135,7 +135,7 @@ def discardSingleCard(card: Card, game: Game) -> Action:
                                cards=parsedCard,
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount)
-        print("played ActionCard: " + card.type)
+        print("played ActionCard: " + card.type + " - nominated Amount: " + amount)
 
     else:
         discardAction = Action(type="discard",

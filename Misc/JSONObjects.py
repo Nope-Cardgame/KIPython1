@@ -61,6 +61,11 @@ class Player:
 
         return cardsList
 
+    def toDict(self):
+        playerDict = vars(self)
+        res = {k: v for k, v in playerDict.items() if v is not None}
+        return res
+
 
 class TournamentParticipant:
     """ Class that represents a participant in a tournament"""
@@ -277,7 +282,7 @@ class Game:
         discardPileList = []
 
         for cardData in self.discardPile:
-            card = Card(*cardData)
+            card = Card(**cardData)
             discardPileList.append(card)
         return discardPileList
 

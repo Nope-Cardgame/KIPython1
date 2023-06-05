@@ -14,6 +14,7 @@ def main(game: Game):
         # topCard = game.getTopCard()
 
         topCard = checkTopCardForActionCards(game.getDiscardPile(), game, 0)
+        print("current top card: " + topCard.name)
 
         cardMatches = matchCardsByColor(topCard, playerCards)
         actionCardsOnHand = checkForActionCards(cardMatches)
@@ -109,7 +110,7 @@ def discardSingleCard(card: Card, game: Game) -> Action:
         if amount > 3:
             amount = 3
 
-        parsedPlayer = vars(nominatedPlayer)
+        parsedPlayer = nominatedPlayer.toDict()
         discardAction = Action(type="nominate",
                                explanation="random pick",
                                cards=parsedCard,

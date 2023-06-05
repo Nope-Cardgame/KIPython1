@@ -135,7 +135,7 @@ def discardSingleCard(card: Card, game: Game) -> Action:
                                cards=parsedCard,
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount)
-        print("played ActionCard: " + card.type + " - nominated Amount: " + amount)
+        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
 
     else:
         discardAction = Action(type="discard",

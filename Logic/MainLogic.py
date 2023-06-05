@@ -60,6 +60,7 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
 
             case "nominate":
                 topCard.value = game.lastNominateAmount
+                topCard.colors = game.lastNominateColor
 
             case "number":
                 pass
@@ -129,15 +130,15 @@ def discardSingleCard(card: Card, game: Game) -> Action:
         if amount > 3:
             amount = 3
 
-        if len(card.colors) > 1:
+        if card.name == "multi nominate":
             parsedPlayer = nominatedPlayer.toDict()
             discardAction = Action(type="nominate",
                                    explanation="random pick",
                                    cards=parsedCard,
                                    nominatedPlayer=parsedPlayer,
                                    nominatedAmount=amount,
-                                   nominatedColor=card.colors[0])
-            print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
+                                   nominatedColor="red")
+            print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount) + " - nominated color:")
 
         else:
             parsedPlayer = nominatedPlayer.toDict()

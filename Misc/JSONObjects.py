@@ -168,7 +168,7 @@ class Action:
         self.nominatedAmount = nominatedAmount
         self.cards = cards
         self.nominatedPlayer = nominatedPlayer
-        self.nominatedCard = nominatedColor
+        self.nominatedColor = nominatedColor
 
     def actionToDict(self):
         actionDict = vars(self)

@@ -61,7 +61,7 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
             case "nominate":
                 topCard.value = game.lastNominateAmount
                 if topCard.name == "multi nominate":
-                    topCard.colors = game.lastNominateColor
+                    topCard.colors = [game.lastNominateColor]
 
             case "number":
                 pass

@@ -10,3 +10,6 @@ Karten abwerfen:
         - Hohe Values als letztes abwerfen um anderen viele Karten abzunehmen
             - (solange folgende Spiele nicht weniger Karten auf Hand haben)
         - Wildcards al letztes abwerfen um nachfolgen Spieler zum Abwurf zu zwingen
+
+    Bei Multi Nominate:
+        - Discard Pile prüfen welche Farben am meisten vorhanden -> min Farbe nominieren

@@ -215,7 +215,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
 # Emitted Events:
 def playAction(action):
     actionJSON = action.actionToDict()
-    print(action.type + ": " + str(action.cards))
+    print(action.type + ": " + str(actionJSON))
     sio.emit("playAction", actionJSON)
 
 

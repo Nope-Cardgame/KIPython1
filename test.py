@@ -71,7 +71,7 @@ def checkCards(topCard: _Card, playerCards: list):
 
         print(discardCards)
 
-topcard = _Card(type="invisible", value=None, colors=["red"], name="invisible")
+topcard = _Card(type="nominate", value=2, colors=["green"], name="green nominate")
 
 a = _Card(type="number", value=1, colors=["red"], name="redone")
 b = _Card(type="number", value=3, colors=["red"], name="redthree")
@@ -83,6 +83,10 @@ g = _Card(type="number", value=3, colors=["red"], name="redthree")
 h = _Card(type="invisible", value=None, colors=["red"], name="invisible")
 i = _Card(type="number", value=3, colors=["red"], name="redthree")
 j = _Card(type="number", value=3, colors=["red"], name="redthree")
+reset = _Card(type="reset", value=None, colors=['green', 'yellow', "blue", "red"], name="reset")
+nominatemulti = _Card(type="nominate", value=None, colors=['green', 'yellow', "blue", "red"], name="multi nominate")
+
+playercards = [a,b,reset,e,nominatemulti]
 
 p1 = _Player("p1", "12345", 5, [a,b,c])
 p2 = _Player("p2", "12345", 7, [a,b,c])
@@ -93,14 +97,14 @@ playersList = [p1,p2,p3,p4]
 
 discardPile = [topcard, c, a, d]
 
-cards = [{'type': 'reset', 'colors': ['green', 'yellow'], 'name': 'green and yellow one', 'value': 1},
+cards = [{'type': 'reset', 'colors': ['green', 'yellow', "blue", "red"], 'name': 'reset', 'value': 1},
          {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue one', 'value': 1},
-         {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow two', 'value': 2},
+         {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow two', 'value': 2},
          {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
          {'type': 'number', 'colors': ['yellow'], 'name': 'yellow one', 'value': 1},
-         {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue two', 'value': 2},
-         {'type': 'number', 'colors': ['green', 'blue'], 'name': 'green and blue two', 'value': 2},
-         {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow one', 'value': 1}]
+         {'type': 'nominate', 'colors': ['green', 'blue', "yellow", "red"], 'name': 'multi nominate', 'value': None},
+         {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue two', 'value': 2},
+         {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1}]
 
 matchcards = {"red": [a, b, e, g],
               "blue": [c, e]}
@@ -149,7 +153,37 @@ def plistmax(playerlist):
         if ma == p.cardAmount:
             print(p.username)
 
-def test(matchedCards):
+
+def matchCardsByColor(topCard, playerCards) :
+    """ Check the players cards for completed sets, depending on the top card
+
+    :param topCard: The current top card
+    :param playerCards: The current players cards
+    :return: Dictionary of matching cards which complete a required set - with colors as keys and a list of cards as value
+    """
+
+    # Save all matching cards to a dictionary
+    matchedColors = {}
+    for color in topCard.colors:
+        matchedCards = []
+        for card in playerCards:
+            for cardcolor in card.colors:
+                if color == cardcolor:
+                    matchedCards.append(card)
+        matchedColors[color] = matchedCards
+
+    # Remove cards if they aren't enough to discard
+    keysToRemove = []
+    for key in matchedColors:
+        if len(matchedColors[key]) < int(topCard.value):
+            keysToRemove.append(key)
+
+    for key in keysToRemove:
+        del matchedColors[key]
+
+    return matchedColors
+
+def testforactioncards(matchedCards):
     actionCardsList = []
 
     for color in matchedCards:
@@ -206,12 +240,7 @@ def checkTopCardForActionCards(discardPileList, index):
             return topCard
 
 
-
-# l = test(matchcards)
-# playActionCard(l)
-
-# plistmax(playersList)
-
-x = checkTopCardForActionCards(discardPile,0)
-print("found topcard: " + x.name)
+matchedcards = matchCardsByColor(topcard, playercards)
+actioncardsmatch = testforactioncards(matchedcards)
+print(str(actioncardsmatch))
 

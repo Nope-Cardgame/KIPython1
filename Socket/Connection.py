@@ -215,7 +215,7 @@ def getSpecificTournamentInfo(user: User, tournamentID: str):
 # Emitted Events:
 def playAction(action):
     actionJSON = action.actionToDict()
-    print(action.type)
+    print(action.type + ": " + str(action.cards))
     sio.emit("playAction", actionJSON)
 
 
@@ -259,7 +259,7 @@ def gameState(data):
         print("Game Cancelled")
     else:
         if glo.user.name == game.currentPlayer["username"]:
-            print("Your turn: ")
+            print("\nYour turn:")
             MainLogic.main(game)
 
 

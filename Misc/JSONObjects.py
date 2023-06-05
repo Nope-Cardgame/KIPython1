@@ -163,7 +163,7 @@ class Action:
         self.type = type
         self.explanation = explanation
         self.player = player
-        self.amount = nominatedAmount
+        self.nominatedAmount = nominatedAmount
         self.cards = cards
         self.nominatedPlayer = nominatedPlayer
         self.nominatedCard = nominatedColor

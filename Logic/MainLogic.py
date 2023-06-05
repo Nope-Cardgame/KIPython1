@@ -161,10 +161,11 @@ def discardSingleCard(card: Card, game: Game) -> Action:
 
 def choosePlayerToNominate(game: Game) -> Player:
     playerlist = game.getPlayerList()
+    currentPlayer = game.getCurrentPlayer()
     cardAmountList = []
 
     for player in playerlist:
-        if player.username != game.currentPlayer["username"]:
+        if player.username != currentPlayer.username:
             cardAmountList.append(int(player.cardAmount))
 
     maxCards = max(cardAmountList)

@@ -11,13 +11,40 @@ def main(game: Game):
     # Check if user is disqualified
     if not player.disqualified:
         playerCards = player.getCards()
-        topCard = game.getTopCard()
+        # topCard = game.getTopCard()
+
+        topCard = checkTopCardForActionCards(game.getDiscardPile(), game, 0)
 
         cardMatches = matchCardsByColor(topCard, playerCards)
         actionCardsOnHand = checkForActionCards(cardMatches)
 
         # When turn starts check for matching pairs - discard matches or take a card
         makeMove(actionCardsOnHand, cardMatches, topCard, game)
+
+
+def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Card:
+
+    topCard = discardPile[index]
+
+    match topCard.type:
+        case "invisible":
+            for card in range(index, len(discardPile)):
+                index += 1
+                topCard = checkTopCardForActionCards(discardPile, game, index)
+                return topCard
+
+        case "reset":
+            topCard.value = 1
+            topCard.colors = ["red", "green", "blue", "yellow"]
+
+        case "nominate":
+            topCard.value = game.lastNominateAmount
+            topCard.colors = game.lastNominateColor
+
+        case "number":
+            pass
+
+    return topCard
 
 
 def makeMove(actionCardsOnHand, cardMatches, topCard, game):
@@ -64,13 +91,12 @@ def playActionCard(actionCardsOnHand: list, game: Game) -> Action:
 
 
 def specifyActionType(actiontype):
-    takeAction = Action(type=actiontype,
-                        explanation="no cards to discard")
-    Connection.playAction(takeAction)
+    specificAction = Action(type=actiontype,
+                            explanation="no cards to discard")
+    Connection.playAction(specificAction)
 
 
 def discardSingleCard(card: Card, game: Game) -> Action:
-
     parsedCard = [card.cardToDict()]
 
     if card.type == "nominate":
@@ -139,6 +165,7 @@ def matchCardsByColor(topCard: Card, playerCards: list) -> dict:
     :param playerCards: The current players cards
     :return: Dictionary of matching cards which complete a required set - with colors as keys and a list of cards as value
     """
+
     # Save all matching cards to a dictionary
     matchedColors = {}
     for color in topCard.colors:

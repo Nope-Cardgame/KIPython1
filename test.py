@@ -71,15 +71,18 @@ def checkCards(topCard: _Card, playerCards: list):
 
         print(discardCards)
 
-topcard = _Card(type="number", value=3, colors=["red", "blue"], name="redbluetwo")
+topcard = _Card(type="invisible", value=None, colors=["red"], name="invisible")
 
 a = _Card(type="number", value=1, colors=["red"], name="redone")
 b = _Card(type="number", value=3, colors=["red"], name="redthree")
-c = _Card(type="reset", value=1, colors=["blue"], name="redone")
-d = _Card(type="number", value=2, colors=["green"], name="redone")
-e = _Card(type="number", value=1, colors=["blue", "red"], name="redone")
-f = _Card(type="number", value=1, colors=["green"], name="redone")
-g = _Card(type="number", value=3, colors=["red"], name="redone")
+c = _Card(type="reset", value=None, colors=["blue"], name="reset")
+d = _Card(type="number", value=2, colors=["green"], name="greentwo")
+e = _Card(type="number", value=1, colors=["blue", "red"], name="redblueone")
+f = _Card(type="number", value=1, colors=["green"], name="greenone")
+g = _Card(type="number", value=3, colors=["red"], name="redthree")
+h = _Card(type="invisible", value=None, colors=["red"], name="invisible")
+i = _Card(type="number", value=3, colors=["red"], name="redthree")
+j = _Card(type="number", value=3, colors=["red"], name="redthree")
 
 p1 = _Player("p1", "12345", 5, [a,b,c])
 p2 = _Player("p2", "12345", 7, [a,b,c])
@@ -88,9 +91,7 @@ p4 = _Player("p4", "12345", 4, [a,b,c])
 
 playersList = [p1,p2,p3,p4]
 
-# playercards = [a, b, c, d, e, f, g]
-
-# checkCards(topcard, playercards)
+discardPile = [topcard, c, a, d]
 
 cards = [{'type': 'reset', 'colors': ['green', 'yellow'], 'name': 'green and yellow one', 'value': 1},
          {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue one', 'value': 1},
@@ -121,8 +122,6 @@ currentPlayer = {"username": "name",
                            {'type': 'reset', 'colors': ['green', 'blue'], 'name': 'green and blue three', 'value': 3},
                            {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1},
                            {'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1}]}
-
-discardPile = [{'colors': ['red', 'green'], 'name': 'red and green two', 'type': 'number', 'value': 2}]
 
 game = {"id": "23345",
         "state": "game_turn",
@@ -186,12 +185,33 @@ def discardSingleCard(card):
     print(parsedCard)
     return parsedCard
 
+def checkTopCardForActionCards(discardPileList, index):
+
+    topCard = discardPileList[index]
+
+    match topCard.type:
+        case "invisible":
+            for card in range(index, len(discardPile)):
+                index += 1
+                topCard = checkTopCardForActionCards(discardPileList, index)
+                return topCard
+
+        case "reset":
+            topCard.value = 1
+            topCard.colors = ["red", "green", "blue", "yellow"]
+            topCard.name = "resetfound"
+            return topCard
+
+        case "number":
+            return topCard
+
+
 
 # l = test(matchcards)
 # playActionCard(l)
 
 # plistmax(playersList)
 
+x = checkTopCardForActionCards(discardPile,0)
+print("found topcard: " + x.name)
 
-amount = 2//3
-print(amount)

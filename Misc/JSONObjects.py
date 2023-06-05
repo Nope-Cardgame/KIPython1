@@ -102,6 +102,7 @@ class Tournament:
                  endTime: str = None,
                  noActionCards: bool = None,
                  noWildCards: bool = None,
+                 oneMoreStartCards: bool = None,
                  actionTimeout: str = None,
                  invitationTimeout: str = None,
                  startWithRejection: bool = None,
@@ -133,6 +134,7 @@ class Tournament:
         self.noWildCards = noWildCards
         self.sendGameInvite = sendGameInvite
         self.gameAmount = gameAmount
+        self.oneMoreStartCards = oneMoreStartCards
 
 
 class Action:

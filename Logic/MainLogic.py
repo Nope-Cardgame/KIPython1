@@ -27,25 +27,44 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
 
     topCard = discardPile[index]
 
-    match topCard.type:
-        case "invisible":
-            for card in range(index, len(discardPile)):
-                index += 1
-                topCard = checkTopCardForActionCards(discardPile, game, index)
-                return topCard
+    if len(discardPile) - index <= 1:
+        match topCard.type:
+            case "invisible":
+                topCard.value = 1
 
-        case "reset":
-            topCard.value = 1
-            topCard.colors = ["red", "green", "blue", "yellow"]
+            case "reset":
+                topCard.value = 1
+                topCard.colors = ["red", "green", "blue", "yellow"]
 
-        case "nominate":
-            topCard.value = game.lastNominateAmount
-            topCard.colors = game.lastNominateColor
+            case "nominate":
+                action = discardSingleCard(topCard, game)
+                Connection.playAction(action)
 
-        case "number":
-            pass
+            case "number":
+                pass
 
-    return topCard
+        return topCard
+
+    else:
+        match topCard.type:
+            case "invisible":
+                for card in range(index, len(discardPile)):
+                    index += 1
+                    topCard = checkTopCardForActionCards(discardPile, game, index)
+                    return topCard
+
+            case "reset":
+                topCard.value = 1
+                topCard.colors = ["red", "green", "blue", "yellow"]
+
+            case "nominate":
+                topCard.value = game.lastNominateAmount
+                topCard.colors = game.lastNominateColor
+
+            case "number":
+                pass
+
+        return topCard
 
 
 def makeMove(actionCardsOnHand, cardMatches, topCard, game):

@@ -18,6 +18,11 @@ class Card:
         self.name = name
         self.value = value
 
+    def cardToDict(self):
+        actionDict = vars(self)
+        res = {k: v for k, v in actionDict.items() if v is not None}
+        return res
+
 
 class Player:
     """ Class that represents a player object """

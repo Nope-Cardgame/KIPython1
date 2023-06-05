@@ -33,7 +33,7 @@ def makeMove(actionCardsOnHand, cardMatches, topCard, game):
     else:
         match game.state:
             case "turn_start":
-                specifyActionType("draw")
+                specifyActionType("take")
             case "card_drawn":
                 specifyActionType("nope")
 
@@ -70,7 +70,8 @@ def specifyActionType(actiontype):
 
 
 def discardSingleCard(card: Card, game: Game) -> Action:
-    parsedCard = [vars(card)]
+
+    parsedCard = [card.cardToDict()]
 
     if card.type == "nominate":
         nominatedPlayer = choosePlayerToNominate(game)
@@ -122,7 +123,7 @@ def discardCardSet(topCard, matchedColors) -> Action:
 
     jsonCards = []
     for card in discardCardsList:
-        parsedCard = vars(card)
+        parsedCard = card.cardToDict()
         jsonCards.append(parsedCard)
 
     discardAction = Action(type="discard",

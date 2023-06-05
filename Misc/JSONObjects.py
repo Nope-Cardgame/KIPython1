@@ -147,7 +147,7 @@ class Action:
                  nominatedAmount: int = None,
                  cards: list[dict] = None,
                  nominatedPlayer: dict = None,
-                 nominatedColor: dict = None):
+                 nominatedColor: str = None):
         """ Construct the Action object for the player to send
 
         :param type: The type of action the player wants to perform

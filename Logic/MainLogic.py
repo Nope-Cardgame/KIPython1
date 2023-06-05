@@ -129,13 +129,24 @@ def discardSingleCard(card: Card, game: Game) -> Action:
         if amount > 3:
             amount = 3
 
-        parsedPlayer = nominatedPlayer.toDict()
-        discardAction = Action(type="nominate",
-                               explanation="random pick",
-                               cards=parsedCard,
-                               nominatedPlayer=parsedPlayer,
-                               nominatedAmount=amount)
-        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
+        if len(card.colors) > 1:
+            parsedPlayer = nominatedPlayer.toDict()
+            discardAction = Action(type="nominate",
+                                   explanation="random pick",
+                                   cards=parsedCard,
+                                   nominatedPlayer=parsedPlayer,
+                                   nominatedAmount=amount,
+                                   nominatedColor=card.colors[0])
+            print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
+
+        else:
+            parsedPlayer = nominatedPlayer.toDict()
+            discardAction = Action(type="nominate",
+                                   explanation="random pick",
+                                   cards=parsedCard,
+                                   nominatedPlayer=parsedPlayer,
+                                   nominatedAmount=amount)
+            print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
 
     else:
         discardAction = Action(type="discard",

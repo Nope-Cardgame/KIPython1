@@ -135,7 +135,7 @@ def startTournament(user: User):
 
     opponents = chooseOpponents(user)
 
-    mode = {"name": "round-robin", "numberOfRounds": 5}
+    mode = {"name": "round-robin", "numberOfRounds": 20}
 
     Connection.startTournament(user, mode, opponents)
 

@@ -1,147 +1,164 @@
-import json
+from Misc.JSONObjects import *
+from Logic import MainLogic
 
 
-class _Card:
-    def __init__(self, type: str, value, name, colors=None, action=None):
-        self.type = type
-        self.value = value
-        self.colors = colors
-        self.name = name
-        self.action = action
+# class _Card:
+#     def __init__(self, type: str, value, name, colors=None, action=None):
+#         self.type = type
+#         self.value = value
+#         self.colors = colors
+#         self.name = name
+#         self.action = action
+#
+#
+# class _Player:
+#
+#     def __init__(self, username, socketId, cardAmount, cards):
+#         self.username = username
+#         self.socketId = socketId
+#         self.cardAmount = cardAmount
+#         self.cards = cards
+#
+#
+# class _Tournament:
+#
+#     def __init__(self,
+#                  id: str,
+#                  mode: dict,
+#                  participants: list[dict],
+#                  games: list[dict],
+#                  startTime: str = None,
+#                  endTime: str = None):
+#         self.id = id
+#         self.mode = mode
+#         self.participants = participants
+#         self.games = games
+#         self.startTime = startTime
+#         self.endTime = endTime
 
 
-class _Player:
+# def checkCards(topCard: _Card, playerCards: list):
+#     matchedColors = {}
+#     for color in topCard.color:
+#
+#         matchedCards = []
+#         for card in playerCards:
+#             for cardcolor in card.color:
+#                 if color == cardcolor:
+#                     matchedCards.append(card)
+#
+#         matchedColors[color] = matchedCards
+#
+#     print(matchedColors)
+#     print(len(matchedColors["red"]))
+#
+#     keysToRemove = []
+#     for key in matchedColors:
+#         if len(matchedColors[key]) < topCard.value:
+#             keysToRemove.append(key)
+#
+#     for key in keysToRemove:
+#         del matchedColors[key]
+#
+#     print(matchedColors)
+#
+#     # decide which cards to discard
+#     if matchedColors:
+#
+#         key = min(matchedColors)
+#         discardCards = []
+#         for i in range(topCard.value):
+#             discardCards.append(matchedColors[key][i])
+#
+#         print(discardCards)
 
-    def __init__(self, username, socketId, cardAmount, cards):
-        self.username = username
-        self.socketId = socketId
-        self.cardAmount = cardAmount
-        self.cards = cards
 
+topcard = Card(type="nominate", value=2, colors=["green"], name="green nominate")
 
-class _Tournament:
+# a = _Card(type="number", value=1, colors=["red"], name="redone")
+# b = _Card(type="number", value=3, colors=["red"], name="redthree")
+# c = _Card(type="reset", value=None, colors=["blue"], name="reset")
+# d = _Card(type="number", value=2, colors=["green"], name="greentwo")
+# e = _Card(type="number", value=1, colors=["blue", "red"], name="redblueone")
+# f = _Card(type="number", value=1, colors=["green"], name="greenone")
+# g = _Card(type="number", value=3, colors=["red"], name="redthree")
+# h = _Card(type="invisible", value=None, colors=["red"], name="invisible")
+# i = _Card(type="number", value=3, colors=["red"], name="redthree")
+# j = _Card(type="number", value=3, colors=["red"], name="redthree")
+# reset = _Card(type="reset", value=None, colors=['green', 'yellow', "blue", "red"], name="reset")
+# nominatemulti = _Card(type="nominate", value=None, colors=['green', 'yellow', "blue", "red"], name="multi nominate")
 
-    def __init__(self,
-                 id: str,
-                 mode: dict,
-                 participants: list[dict],
-                 games: list[dict],
-                 startTime: str = None,
-                 endTime: str = None):
-        self.id = id
-        self.mode = mode
-        self.participants = participants
-        self.games = games
-        self.startTime = startTime
-        self.endTime = endTime
+# playercards = [a, b, reset, e, nominatemulti]
+#
+# p1 = _Player("p1", "12345", 5, [a, b, c])
+# p2 = _Player("p2", "12345", 7, [a, b, c])
+# p3 = _Player("p3", "12345", 2, [a, b, c])
+# p4 = _Player("p4", "12345", 4, [a, b, c])
+#
+# playersList = [p1, p2, p3, p4]
 
+discardPile = [{'type': 'nominate', 'colors': ['green'], 'name': 'green nominate'}]
 
-def checkCards(topCard: _Card, playerCards: list):
-    matchedColors = {}
-    for color in topCard.color:
+# cards = [{'type': 'reset', 'colors': ['green', 'yellow', "blue", "red"], 'name': 'reset', 'value': 1},
+#          {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue one', 'value': 1},
+#          {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow two', 'value': 2},
+#          {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
+#          {'type': 'number', 'colors': ['yellow'], 'name': 'yellow one', 'value': 1},
+#          {'type': 'nominate', 'colors': ['green', 'blue', "yellow", "red"], 'name': 'multi nominate', 'value': None},
+#          {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue two', 'value': 2},
+#          {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1}]
+#
+# matchcards = {"red": [a, b, e, g],
+#               "blue": [c, e]}
 
-        matchedCards = []
-        for card in playerCards:
-            for cardcolor in card.color:
-                if color == cardcolor:
-                    matchedCards.append(card)
+# cardsList = []
+# for cardData in cards:
+#     card = _Card(**cardData)
+#     cardsList.append(card)
 
-        matchedColors[color] = matchedCards
+player1 = {'username': 'deedz',
+           'socketId': 'R7MzJTSb1LBHzWdXAAJT',
+           'cardAmount': 8,
+           'cards': [{'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1},
+                     {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
+                     {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow two', 'value': 2},
+                     {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1},
+                     {'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
+                     {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow two', 'value': 2},
+                     {'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
+                     {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow two', 'value': 2}],
+           'disqualified': False}
 
-    print(matchedColors)
-    print(len(matchedColors["red"]))
+player2 = {'username': 'Dennis',
+           'socketId': 'R7MzJTSb1LBHzWdXAAJT',
+           'cardAmount': 8,
+           'cards': [{'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1},
+                     {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
+                     {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow two', 'value': 2},
+                     {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1},
+                     {'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
+                     {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow two', 'value': 2},
+                     {'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
+                     {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow two', 'value': 2}],
+           'disqualified': False}
 
-    keysToRemove = []
-    for key in matchedColors:
-        if len(matchedColors[key]) < topCard.value:
-            keysToRemove.append(key)
+testgame = {"id": "23345",
+            "state": "turn_start",
+            "noActionCards": "True",
+            "noWildCards": "True",
+            "oneMoreStartCard": "True",
+            "players": [player1, player2],
+            "discardPile": discardPile,
+            "currentPlayer": player1}
 
-    for key in keysToRemove:
-        del matchedColors[key]
+# t = {"id": "1234",
+#      "mode": {"mode": "round-robin", "numberofRounds": "10"},
+#      "participants": [player1],
+#      "games": [testgame],
+#      }
 
-    print(matchedColors)
-
-    # decide which cards to discard
-    if matchedColors:
-
-        key = min(matchedColors)
-        discardCards = []
-        for i in range(topCard.value):
-            discardCards.append(matchedColors[key][i])
-
-        print(discardCards)
-
-topcard = _Card(type="nominate", value=2, colors=["green"], name="green nominate")
-
-a = _Card(type="number", value=1, colors=["red"], name="redone")
-b = _Card(type="number", value=3, colors=["red"], name="redthree")
-c = _Card(type="reset", value=None, colors=["blue"], name="reset")
-d = _Card(type="number", value=2, colors=["green"], name="greentwo")
-e = _Card(type="number", value=1, colors=["blue", "red"], name="redblueone")
-f = _Card(type="number", value=1, colors=["green"], name="greenone")
-g = _Card(type="number", value=3, colors=["red"], name="redthree")
-h = _Card(type="invisible", value=None, colors=["red"], name="invisible")
-i = _Card(type="number", value=3, colors=["red"], name="redthree")
-j = _Card(type="number", value=3, colors=["red"], name="redthree")
-reset = _Card(type="reset", value=None, colors=['green', 'yellow', "blue", "red"], name="reset")
-nominatemulti = _Card(type="nominate", value=None, colors=['green', 'yellow', "blue", "red"], name="multi nominate")
-
-playercards = [a,b,reset,e,nominatemulti]
-
-p1 = _Player("p1", "12345", 5, [a,b,c])
-p2 = _Player("p2", "12345", 7, [a,b,c])
-p3 = _Player("p3", "12345", 2, [a,b,c])
-p4 = _Player("p4", "12345", 4, [a,b,c])
-
-playersList = [p1,p2,p3,p4]
-
-discardPile = [topcard, c, a, d]
-
-cards = [{'type': 'reset', 'colors': ['green', 'yellow', "blue", "red"], 'name': 'reset', 'value': 1},
-         {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue one', 'value': 1},
-         {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow two', 'value': 2},
-         {'type': 'number', 'colors': ['blue'], 'name': 'blue two', 'value': 2},
-         {'type': 'number', 'colors': ['yellow'], 'name': 'yellow one', 'value': 1},
-         {'type': 'nominate', 'colors': ['green', 'blue', "yellow", "red"], 'name': 'multi nominate', 'value': None},
-         {'type': 'number', 'colors': ['red', 'blue'], 'name': 'red and blue two', 'value': 2},
-         {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1}]
-
-matchcards = {"red": [a, b, e, g],
-              "blue": [c, e]}
-
-cardsList = []
-for cardData in cards:
-    card = _Card(**cardData)
-    cardsList.append(card)
-
-currentPlayer = {"username": "name",
-                 "socketId": "1234dgf",
-                 "cardAmount": 6,
-                 "cards": [{'type': 'number', 'colors': ['green'], 'name': 'green two', 'value': 2},
-                           {'type': 'number', 'colors': ['blue', 'yellow'], 'name': 'blue and yellow three',
-                            'value': 3},
-                           {'type': 'number', 'colors': ['green', 'yellow'], 'name': 'green and yellow three',
-                            'value': 3}, {'type': 'number', 'colors': ['green'], 'name': 'green one', 'value': 1},
-                           {'type': 'number', 'colors': ['yellow'], 'name': 'yellow two', 'value': 2},
-                           {'type': 'reset', 'colors': ['green', 'blue'], 'name': 'green and blue three', 'value': 3},
-                           {'type': 'number', 'colors': ['red', 'yellow'], 'name': 'red and yellow one', 'value': 1},
-                           {'type': 'number', 'colors': ['red', 'green'], 'name': 'red and green one', 'value': 1}]}
-
-game = {"id": "23345",
-        "state": "game_turn",
-        "noActionCards": "True",
-        "noWildCards": "True",
-        "oneMoreStartCard": "True",
-        "players": [currentPlayer]}
-
-t = {"id": "1234",
-     "mode": {"mode": "round-robin", "numberofRounds": "10"},
-     "participants": [currentPlayer],
-     "games": [game],
-     }
 
 def plistmax(playerlist):
-
     list = []
     for p in playerlist:
         list.append(int(p.cardAmount))
@@ -154,7 +171,7 @@ def plistmax(playerlist):
             print(p.username)
 
 
-def matchCardsByColor(topCard, playerCards) :
+def matchCardsByColor(topCard, playerCards):
     """ Check the players cards for completed sets, depending on the top card
 
     :param topCard: The current top card
@@ -182,6 +199,7 @@ def matchCardsByColor(topCard, playerCards) :
         del matchedColors[key]
 
     return matchedColors
+
 
 def testforactioncards(matchedCards):
     actionCardsList = []
@@ -214,13 +232,12 @@ def playActionCard(actionCardsOnHand):
 
 
 def discardSingleCard(card):
-
     parsedCard = [vars(card)]
     print(parsedCard)
     return parsedCard
 
-def checkTopCardForActionCards(discardPileList, index):
 
+def checkTopCardForActionCards(discardPileList, index):
     topCard = discardPileList[index]
 
     match topCard.type:
@@ -240,7 +257,7 @@ def checkTopCardForActionCards(discardPileList, index):
             return topCard
 
 
-matchedcards = matchCardsByColor(topcard, playercards)
-actioncardsmatch = testforactioncards(matchedcards)
-print(str(actioncardsmatch))
+game = Game(**testgame)
+
+MainLogic.main(game)
 

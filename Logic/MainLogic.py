@@ -14,7 +14,7 @@ def main(game: Game):
         # topCard = game.getTopCard()
 
         topCard = checkTopCardForActionCards(game.getDiscardPile(), game, 0)
-        print("current top card: " + topCard.name)
+        print("current top card: " + topCard.name + " -- " + str(topCard.cardToDict()))
 
         cardMatches = matchCardsByColor(topCard, playerCards)
         actionCardsOnHand = checkForActionCards(cardMatches)
@@ -137,7 +137,7 @@ def nominatePlayer(card: Card, game: Game) -> Action:
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount,
                                nominatedColor="red") #TODO nominate a color
-        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount) + " - nominated color:")
+        print("nominated player: " + nominatedPlayer.username + " - nominated Amount: " + str(amount) + " - nominated color:")
 
     else:
         parsedPlayer = nominatedPlayer.toDict()
@@ -146,7 +146,7 @@ def nominatePlayer(card: Card, game: Game) -> Action:
                                cards=None,
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount)
-        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
+        print("nominated player: " + nominatedPlayer.username + " - nominated Amount: " + str(amount))
 
     return discardAction
 
@@ -204,7 +204,7 @@ def choosePlayerToNominate(game: Game) -> Player:
     maxCards = max(cardAmountList)
 
     for player in playerlist:
-        if maxCards == player.cardAmount:
+        if maxCards == player.cardAmount and player.username != currentPlayer.username:
             return player
 
 

@@ -278,6 +278,10 @@ def banned(data):
 def gameEnd(data):
     print('\x1b[6;30;42m' + "Game ended" + '\x1b[0m')
 
+    game = Game(**data)
+    player = game.getPlayerByName(glo.user.name)
+    print(player.ranking)
+
 
 @sio.on("tournamentInvite")
 def tournamentInvite(data):

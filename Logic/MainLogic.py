@@ -1,5 +1,6 @@
 from Misc.JSONObjects import *
 from Socket import Connection
+import random
 
 
 def main(game: Game):
@@ -38,8 +39,14 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
                 topCard.colors = ["red", "green", "blue", "yellow"]
 
             case "nominate":
-                action = nominatePlayer(topCard, game)
-                Connection.playAction(action)
+                if game.state == "nominate_flipped":
+                    action = nominatePlayer(topCard, game)
+                    Connection.playAction(action)
+
+                else:
+                    topCard.value = game.lastNominateAmount
+                    if topCard.name == "multi nominate":
+                        topCard.colors = [game.lastNominateColor]
 
             case "number":
                 pass
@@ -130,13 +137,16 @@ def nominatePlayer(card: Card, game: Game) -> Action:
         amount = 3
 
     if card.name == "multi nominate":
+
+        nominatedColor = nominateColor()
+
         parsedPlayer = nominatedPlayer.toDict()
         discardAction = Action(type="nominate",
                                explanation="random pick",
                                cards=None,
                                nominatedPlayer=parsedPlayer,
                                nominatedAmount=amount,
-                               nominatedColor="red") #TODO nominate a color
+                               nominatedColor=nominatedColor)
         print("nominated player: " + nominatedPlayer.username + " - nominated Amount: " + str(amount) + " - nominated color:")
 
     else:
@@ -149,6 +159,12 @@ def nominatePlayer(card: Card, game: Game) -> Action:
         print("nominated player: " + nominatedPlayer.username + " - nominated Amount: " + str(amount))
 
     return discardAction
+
+
+def nominateColor() -> str:
+    possiblecolors = ["red", "green", "yellow", "blue"]
+    randomColor = random.choice(possiblecolors)
+    return randomColor
 
 
 def discardSingleCard(card: Card, game: Game) -> Action:

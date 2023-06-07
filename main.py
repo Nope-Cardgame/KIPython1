@@ -80,7 +80,7 @@ def game(user: User):
 
             case "4":
                 if len(currentUsers) >= 2:
-                    startGame(user)
+                    startTournament(user)
                     break
                 else:
                     print("Not enough users to start a game!")

@@ -145,7 +145,7 @@ def startTournament(user: User, mode: dict, players: list):
         """
 
     body = {"mode": mode,
-            "players": players
+            "participants": players
             }
 
     response = requests.post(baseURL + "tournament",

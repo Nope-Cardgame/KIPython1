@@ -283,6 +283,15 @@ def gameEnd(data):
     print('\x1b[6;30;42m' + "Rank: " + str(player.ranking) + "/" + str(len(game.players)) + '\x1b[0m')
 
 
+@sio.on("tournamentEnd")
+def gameEnd(data):
+    print('\x1b[6;30;42m' + "Tournament ended" + '\x1b[0m')
+
+    tournament = Tournament(**data)
+    player = tournament.getParticipantByName(glo.user.name)
+    print('\x1b[1;32;40m' + "Rank: " + str(player.ranking) + "/" + str(len(tournament.participants)) + '\x1b[0m')
+
+
 @sio.on("tournamentInvite")
 def tournamentInvite(data):
     print("Tournament Invite received\n")

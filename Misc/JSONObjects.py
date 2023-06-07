@@ -72,9 +72,11 @@ class TournamentParticipant:
 
     def __init__(self,
                  username: str,
+                 socketId: str,
                  ranking: int,
                  disqualified: bool,
-                 score: int):
+                 score: int,
+                 accepted: bool = None):
         """ Construct the participants in a tournament
 
         :param username: Participants name
@@ -84,9 +86,11 @@ class TournamentParticipant:
         """
 
         self.username = username
+        self.socketId = socketId
         self.ranking = ranking
         self.disqualified = disqualified
         self.score = score
+        self.accepted = accepted
 
 
 class Tournament:
@@ -102,7 +106,7 @@ class Tournament:
                  endTime: str = None,
                  noActionCards: bool = None,
                  noWildCards: bool = None,
-                 oneMoreStartCards: bool = None,
+                 oneMoreStartCard: bool = None,
                  actionTimeout: str = None,
                  invitationTimeout: str = None,
                  startWithRejection: bool = None,
@@ -134,7 +138,14 @@ class Tournament:
         self.noWildCards = noWildCards
         self.sendGameInvite = sendGameInvite
         self.gameAmount = gameAmount
-        self.oneMoreStartCards = oneMoreStartCards
+        self.oneMoreStartCard = oneMoreStartCard
+
+    def getParticipantByName(self, name) -> TournamentParticipant:
+
+        for playerData in self.participants:
+            if playerData["username"] == name:
+                player = TournamentParticipant(**playerData)
+                return player
 
 
 class Action:

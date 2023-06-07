@@ -38,7 +38,7 @@ def checkTopCardForActionCards(discardPile: list, game: Game, index: int) -> Car
                 topCard.colors = ["red", "green", "blue", "yellow"]
 
             case "nominate":
-                action = discardSingleCard(topCard, game)
+                action = nominatePlayer(topCard, game)
                 Connection.playAction(action)
 
             case "number":
@@ -118,6 +118,39 @@ def specifyActionType(actiontype):
     Connection.playAction(specificAction)
 
 
+def nominatePlayer(card: Card, game: Game) -> Action:
+
+    nominatedPlayer = choosePlayerToNominate(game)
+
+    # calculate nominated amount. If player has more cards a higher value gets nominated
+    amount = nominatedPlayer.cardAmount // 3
+    if amount < 1:
+        amount = 1
+    if amount > 3:
+        amount = 3
+
+    if card.name == "multi nominate":
+        parsedPlayer = nominatedPlayer.toDict()
+        discardAction = Action(type="nominate",
+                               explanation="random pick",
+                               cards=None,
+                               nominatedPlayer=parsedPlayer,
+                               nominatedAmount=amount,
+                               nominatedColor="red") #TODO nominate a color
+        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount) + " - nominated color:")
+
+    else:
+        parsedPlayer = nominatedPlayer.toDict()
+        discardAction = Action(type="nominate",
+                               explanation="random pick",
+                               cards=None,
+                               nominatedPlayer=parsedPlayer,
+                               nominatedAmount=amount)
+        print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount))
+
+    return discardAction
+
+
 def discardSingleCard(card: Card, game: Game) -> Action:
     parsedCard = [card.cardToDict()]
 
@@ -138,7 +171,7 @@ def discardSingleCard(card: Card, game: Game) -> Action:
                                    cards=parsedCard,
                                    nominatedPlayer=parsedPlayer,
                                    nominatedAmount=amount,
-                                   nominatedColor="red")
+                                   nominatedColor="red") #TODO nominate a color
             print("played ActionCard: " + card.type + " - nominated Amount: " + str(amount) + " - nominated color:")
 
         else:

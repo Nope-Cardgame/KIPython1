@@ -135,7 +135,7 @@ def startTournament(user: User):
 
     opponents = chooseOpponents(user)
 
-    mode = {"name": "round-robin", "numberOfRounds": "10"}
+    mode = {"name": "round-robin", "numberOfRounds": 5}
 
     Connection.startTournament(user, mode, opponents)
 
@@ -151,7 +151,7 @@ def chooseOpponents(user):
         for opponent in currentUsers:
             opponents.append(opponent)
     if challenge == "2":
-        print("Choose your opponents! Input 'q' to quit")
+        print("Choose your opponents!")
         i = 0
         for users in currentUsers:
             print("[{index}] ".format(index=i) + users.get("username"))

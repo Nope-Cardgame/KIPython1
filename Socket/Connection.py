@@ -276,7 +276,7 @@ def banned(data):
 
 @sio.on("gameEnd")
 def gameEnd(data):
-    print("Game ended")
+    print('\x1b[6;30;42m' + "Game ended" + '\x1b[0m')
 
 
 @sio.on("tournamentInvite")
@@ -303,7 +303,7 @@ def tournamentInvite(data):
 
 @sio.on("eliminated")
 def eliminated(data):
-    print("You have been eliminated")
+    print('\x1b[6;30;41m' + "You have been eliminated" + '\x1b[0m')
     print(data)
 
 

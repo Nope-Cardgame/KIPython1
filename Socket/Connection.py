@@ -280,7 +280,7 @@ def gameEnd(data):
 
     game = Game(**data)
     player = game.getPlayerByName(glo.user.name)
-    print(player.ranking)
+    print('\x1b[6;30;42m' + "Rank: " + str(player.ranking) + "/" + str(len(game.players)) + '\x1b[0m')
 
 
 @sio.on("tournamentInvite")

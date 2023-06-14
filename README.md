@@ -1,6 +1,10 @@
 # Nope - KI Spieler (Python)
 Kurze Beschreibung des Repos und der übergreifenden Schnittstelle für die unterschiedlichen Clients.
 
+## Mitglieder 
+Mitglied | entwickelter Client |  
+--- | --- | 
+[Dennis Edler](https://github.com/deedz-x) | Client1
 
 ## Dokumentation
 [Link zum Doku-Ordner](https://github.com/Nope-Cardgame/Doku)

@@ -1,0 +1,17 @@
+Karten abwerfen:
+
+    Bei mehreren Optionen abwägen welche abgeworfen werden:
+        - Mehr Karten von einer Farbe -> nicht so schnell die Möglichkeit erneut bei der Farbe dranzukommen, Chance dass andere Farbe drankommt gering
+        - Weniger Karten von einer Farbe -> sehr geringe Chance bei dieser Farbe wieder abwerfen zu müssen, hohe Chance bei anderer Farbe
+
+    Abwägen welche Karten abgworfen werden:
+        - Lieber Karten mit mehreren Farben um Chance auf eigene Matches zu verringern
+            - erhöht Chance auf Matches bei anderen Spielern
+        - Hohe Values als letztes abwerfen um anderen viele Karten abzunehmen
+            - (solange folgende Spiele nicht weniger Karten auf Hand haben)
+        - Wildcards al letztes abwerfen um nachfolgen Spieler zum Abwurf zu zwingen
+
+    Bei Multi Nominate:
+        - Discard Pile prüfen welche Farben am meisten vorhanden -> min Farbe nominieren
+
+    Bei einzel Sets sollen Action Cards nicht bevorzugt werden

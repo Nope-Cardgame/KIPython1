@@ -1,17 +1,9 @@
 # Nope - KI Spieler (Python)
-
 Kurze Beschreibung des Repos und der übergreifenden Schnittstelle für die unterschiedlichen Clients.
 
 
 ## Dokumentation
-[Link zum Doku-Ordner](https://github.com/Nope-Cardgame/Repo-Template/Doku-Ordner)
-
-
-## Mitglieder
-Mitglied | entwickelter Client | 
---- | --- |
-[Dennis Edler](https://github.com/deedz-x) | Client1
-[Moritz Stenten](https://https://github.com/mstenten) | Client2
+[Link zum Doku-Ordner](https://github.com/Nope-Cardgame/Doku)
 
 ## Coding-Conventions
 - Code und Dokumentation auf Englisch

@@ -19,6 +19,11 @@ class Card:
         self.value = value
 
     def cardToDict(self):
+        """ Parse the Card object to a Dictionary. Attributes with None are not used
+
+        :return: The Card as a dict/JSON
+        """
+
         actionDict = vars(self)
         res = {k: v for k, v in actionDict.items() if v is not None}
         return res
@@ -43,6 +48,7 @@ class Player:
         :param cards: List of cards the player holds in his hand
         :param ranking: Current ranking of player
         :param disqualified: Bool if player is disqualified
+        :param accepted: Bool if current player accepted the invite
         """
 
         self.username = username
@@ -54,6 +60,11 @@ class Player:
         self.accepted = accepted
 
     def getCards(self):
+        """ Gets the players current cards and parses them to Card objects
+
+        :return: list of Card objects
+        """
+
         cardsList = []
         for cardData in self.cards:
             card = Card(**cardData)
@@ -62,6 +73,11 @@ class Player:
         return cardsList
 
     def toDict(self):
+        """ Parse the Player object to a Dictionary. Attributes with None are not used
+
+        :return: The Player as a dict/JSON
+        """
+
         playerDict = vars(self)
         res = {k: v for k, v in playerDict.items() if v is not None}
         return res
@@ -80,9 +96,11 @@ class TournamentParticipant:
         """ Construct the participants in a tournament
 
         :param username: Participants name
+        :param socketId: Participants socket ID
         :param ranking: Participants current rank
         :param disqualified: Bool if participant is disqualified
         :param score: Current score of participant
+        :param accepted: bool if participant accepted the invite
         """
 
         self.username = username
@@ -117,10 +135,20 @@ class Tournament:
 
         :param id: The tournaments ID
         :param mode: Current game mode
+        :param state: The current tournament state
         :param participants: List of all Participants
         :param games: List of all games from current tournament
         :param startTime: Starting time of Tournament
         :param endTime: End of tournament
+        :param noActionCards: Bool if ActionCards are part of the game
+        :param noWildCards: Bool if WildCards are part of the game
+        :param oneMoreStartCard: Bool if players begin with a additional Card
+        :param actionTimeout: Server stats - only before and in game
+        :param invitationTimeout: Server stats - only before and in game
+        :param startWithRejection: Server stats - only before and in game
+        :param sendGameInvite: bool if invite is sent - only in prep and ongoing state
+        :param participantAmount: Number of participating players
+        :param gameAmount: the number of games played
         """
 
         self.id = id
@@ -141,6 +169,11 @@ class Tournament:
         self.oneMoreStartCard = oneMoreStartCard
 
     def getParticipantByName(self, name) -> TournamentParticipant:
+        """ Get a participant of the tournament by name. Parses the particitpant to a TournamentParticipant object
+
+        :param name: the name of the wanted participant
+        :return: Participant as TournamentParticipant object
+        """
 
         for playerData in self.participants:
             if playerData["username"] == name:
@@ -181,7 +214,12 @@ class Action:
         self.nominatedPlayer = nominatedPlayer
         self.nominatedColor = nominatedColor
 
-    def actionToDict(self):
+    def actionToDict(self) -> dict:
+        """ Parses a Action object to a Dictionary/JSON. Attributes that are None are not parsed
+
+        :return: Dictionary of the action
+        """
+
         actionDict = vars(self)
         res = {k: v for k, v in actionDict.items() if v is not None}
         return res
@@ -221,18 +259,25 @@ class Game:
         :param noWildCards: Bool if WildCards are part of the game
         :param oneMoreStartCard: Bool if players begin with a additional Card
         :param players: List of Players participating in a game
+        :param actionTimeout: Server stats - only before and in game
+        :param invitationTimeout: Server stats - only before and in game
+        :param startWithRejection: Server stats - only before and in game
         :param startTime: Starting time of game
         :param tournament: (Optional) Tournament object if game is in tournament mode
         :param gameRole: (Optional) Game modifiers like sudden death in tournament mode
         :param encounterRound: (Optional) current round of tournament
+        :param playerAmount: Number of players connected to the game - populated by server
         :param discardPile: List of discarded cards - only if game is running
         :param lastAction: The last played Action - only if game is running
+        :param lastNominateAmount: The last nominated amount - only if game is running
+        :param lastNominateColor: The last nominated color - only if game is running
         :param currentPlayer: The current player - only if game is running
         :param initialTopCard: The top card at the end of a game - only if game is finished
         :param actions: List of all Actions performed - only if game is finished
         :param endTime: End time of the game - only if game is finished
         """
 
+        # Check for invalid game states
         if state not in ["game_start",
                          "nominate_flipped",
                          "turn_start",
@@ -265,8 +310,11 @@ class Game:
         self.startWithRejection = startWithRejection
         self.playerAmount = playerAmount
 
-    # TODO DocStrings for class functions
     def getPlayerList(self) -> list:
+        """ Function to parse all participating players to Player objects and add them to a list
+
+        :return: a list of Player objects containing all participating players
+        """
 
         playerList = []
 
@@ -277,6 +325,11 @@ class Game:
         return playerList
 
     def getPlayer(self, sid) -> Player:
+        """ Function to get a single player by his sid and parse them to a Player object
+
+        :param sid: socketID of the wanted player
+        :return: The wanted player as a Player object
+        """
 
         for playerData in self.players:
             if playerData["socketId"] == sid:
@@ -284,6 +337,11 @@ class Game:
                 return player
 
     def getPlayerByName(self, name) -> Player:
+        """ Function to get a single player by his name and parse them to a Player object
+
+        :param name: name of the wanted player
+        :return: The wanted player as a Player object
+        """
 
         for playerData in self.players:
             if playerData["username"] == name:
@@ -291,6 +349,10 @@ class Game:
                 return player
 
     def getDiscardPile(self) -> list:
+        """ Function to get the discard pile and parse all cards to Card objects
+
+        :return: a list of Card objects, currently on the discard pile
+        """
 
         discardPileList = []
 
@@ -300,9 +362,19 @@ class Game:
         return discardPileList
 
     def getTopCard(self) -> Card:
+        """ Function to get the top card of the discard pile and parse it to a Card object
+
+        :return: The top card as Card object
+        """
+
         topCard = Card(**self.discardPile[0])
         return topCard
 
     def getCurrentPlayer(self) -> Player:
+        """ Function to get the current player and parse them to a Player object
+
+        :return: Current player as Player object
+        """
+
         player = Player(**self.currentPlayer)
         return player

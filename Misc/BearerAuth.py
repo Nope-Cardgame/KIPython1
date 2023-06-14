@@ -1,5 +1,6 @@
 import requests
 
+
 class BearerAuth(requests.auth.AuthBase):
     """ Class to make authentication easier. Transforms the JWT to a Header containing a Bearer Token.
 

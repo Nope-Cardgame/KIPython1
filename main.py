@@ -42,6 +42,7 @@ def game(user: User):
 
     :param user: Current user object
     """
+
     print("\nWelcome to Nope!")
 
     while True:
@@ -101,6 +102,7 @@ def gameInfoMenu(user: User):
 
     :param user: the current user
     """
+
     gameInfoInput = input("Do you want information of all games or a specific one?\n"
                           "[1] - All\n"
                           "[2] - Specific\n")
@@ -118,29 +120,35 @@ def startGame(user: User):
 
     :param user: Current user object
     """
-    noActionCards = False
-    noWildcards = False
-    oneMoreStartCard = False
+
     opponents = chooseOpponents(user)
 
     # TODO Add possible modifiers
-    # modifiers = input("Do you want to modify your game?\n[1] - Yes\n[2] - No")
-    # if modifiers == "1":
-    #     while True:
-    #         print("Current modifiers:")
 
     Connection.createGame(user, opponents)
 
 def startTournament(user: User):
+    """ Handles the basic menu for creating a tournament and specifying opponents and modifiers
+
+    :param user: Current user object
+    """
 
     opponents = chooseOpponents(user)
 
-    mode = {"name": "round-robin", "numberOfRounds": 9}
+    numOfRounds = int(input("How many rounds do you want to play?"))
+
+    mode = {"name": "round-robin", "numberOfRounds": numOfRounds}
 
     Connection.startTournament(user, mode, opponents)
 
 
 def chooseOpponents(user):
+    """ Function to choose all or specific oppponents. Prints all currently online players with index and lets
+    user choose all or multiple from them.
+
+    :param user: Current user object
+    :return: a list of opponents as dictionary
+    """
 
     opponents = []
     challenge = input("Who would you like to challenge?\n"
@@ -170,8 +178,8 @@ def chooseOpponents(user):
             except ValueError:
                 break
 
-        for opponent in specificOpponents:
-            opponents.append(currentUsers[opponent])
+        for index in specificOpponents:
+            opponents.append(currentUsers[index])
     return opponents
 
 

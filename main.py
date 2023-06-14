@@ -1,10 +1,6 @@
 from Misc.User import User
 from Socket import Connection
-import sys
 import Misc.Globals as glo
-
-
-# baseURL = "http://nope.ddns.net/api/"
 
 
 def main():

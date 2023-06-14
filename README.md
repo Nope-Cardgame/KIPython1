@@ -1,17 +1,11 @@
 # Nope - KI Spieler (Python)
+Geklontes Repository für die private Arbeit am KI Client. Für das Modul Softwareprojekt im SoSe 2023 der HSBI.
 
-Kurze Beschreibung des Repos und der übergreifenden Schnittstelle für die unterschiedlichen Clients.
-
+## Projekt
+[Link zur Projekt-Seite](https://github.com/Nope-Cardgame)
 
 ## Dokumentation
-[Link zum Doku-Ordner](https://github.com/Nope-Cardgame/Repo-Template/Doku-Ordner)
-
-
-## Mitglieder
-Mitglied | entwickelter Client | 
---- | --- |
-[Dennis Edler](https://github.com/deedz-x) | Client1
-[Moritz Stenten](https://https://github.com/mstenten) | Client2
+[Link zum Doku-Ordner](https://github.com/Nope-Cardgame/Doku)
 
 ## Coding-Conventions
 - Code und Dokumentation auf Englisch
